@@ -15,7 +15,9 @@
 		alt="Logo"
 		class="w-50 h-40 object-contain mx-auto mb-4"
 		/>
-
+		
+		<div class="badge badge-outline badge-warning mx-auto block">ALPHA</div>
+	
 		<label for={drawerId} aria-label="close sidebar" class="drawer-overlay"></label>
 		<ul class="menu min-h-full w-80 bg-base-200 p-4 text-base-content">
 			<li><a href="/">Home</a></li>
