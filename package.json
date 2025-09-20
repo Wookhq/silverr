@@ -46,7 +46,8 @@
       "target": [
         "flatpak"
       ],
-      "category": "Utility"
+      "category": "Utility",
+      "icon": "src/assets/logo.svg"
     }
   },
   "dependencies": {
