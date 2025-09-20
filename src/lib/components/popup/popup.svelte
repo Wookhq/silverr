@@ -3,7 +3,11 @@
   let modal;
 
   onMount(() => {
-    modal.showModal();
+    // check if we already showed this session
+    if (!sessionStorage.getItem("popupShown")) {
+      modal.showModal();
+      sessionStorage.setItem("popupShown", "true");
+    }
   });
 </script>
 
