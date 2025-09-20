@@ -9,7 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: checkout repo
         uses: actions/checkout@v4
@@ -25,6 +24,11 @@ jobs:
 
       - name: build svelte frontend
         run: npm run build
+
+      - name: install flatpak
+        run: |
+          sudo apt update
+          sudo apt install -y flatpak flatpak-builder
 
       - name: build electron app (linux)
         run: npx electron-builder --linux --publish never
