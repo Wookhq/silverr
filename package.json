@@ -2,7 +2,7 @@
   "name": "silverr",
   "private": true,
   "version": "0.0.1",
-  "description": "Silverr app", 
+  "description": "Silverr app",
   "author": "Wookhq ORG",
   "main": "electron-main.cjs",
   "type": "module",
@@ -43,8 +43,15 @@
     "productName": "Silverr",
     "electronVersion": "38.1.2",
     "linux": {
-      "target": ["flatpak"],
+      "target": [
+        "flatpak"
+      ],
       "category": "Utility"
     }
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "svelte-motion": "^0.12.2",
+    "tailwind-merge": "^3.3.1"
   }
 }
