@@ -1,4 +1,4 @@
-name: Build Electron Flatpak
+name: Flatpak Build
 
 on:
   workflow_dispatch: 
