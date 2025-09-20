@@ -1,0 +1,36 @@
+name: Build Electron App
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v4
+
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: install deps
+        run: npm ci
+
+      - name: build svelte frontend
+        run: npm run build
+
+      - name: build electron app (linux)
+        run: npx electron-builder --linux --publish never
+
+      - name: upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-build
+          path: dist/**
