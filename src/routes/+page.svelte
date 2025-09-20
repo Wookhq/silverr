@@ -1,1 +1,5 @@
-<h1>the root page</h1>
+<script>
+  import Popup from "$lib/components/popup/popup.svelte";
+</script>
+
+<Popup />
