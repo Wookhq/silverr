@@ -1,5 +1,5 @@
 {
-	"name": "lt",
+	"name": "silverr",
 	"private": true,
 	"version": "0.0.1",
 	"main": "electron-main.cjs",
@@ -35,5 +35,13 @@
 		"typescript": "^5.0.0",
 		"vite": "^7.0.4",
 		"wait-on": "^9.0.0"
+	},
+	"build": {
+		"appId": "org.wookhq.Silverr",
+		"productName": "Silverr",
+		"linux": {
+			"target": ["flatpak"],
+			"category": "Utility"
+		}
 	}
 }
