@@ -1,0 +1,40 @@
+name: Build Electron Flatpak
+
+on:
+  workflow_dispatch: 
+
+jobs:
+  build-flatpak:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v4
+
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: install deps
+        run: npm ci --only=production
+
+      - name: build svelte frontend
+        run: npm run build
+
+      - name: install flatpak tools
+        run: |
+          sudo apt update
+          sudo apt install -y flatpak flatpak-builder
+
+      - name: build electron Flatpak
+        run: |
+          npx electron-builder --linux flatpak --publish never
+
+      - name: upload Flatpak artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lt-flatpak
+          path: dist/**/*.flatpak
+          retention-days: 7

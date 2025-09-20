@@ -1,0 +1,24 @@
+{
+  "id": "org.wookhq.Silverr",
+  "runtime": "org.freedesktop.Platform",
+  "runtime-version": "22.08",
+  "sdk": "org.freedesktop.Sdk",
+  "command": "silverr",
+  "modules": [
+    {
+      "name": "silverr",
+      "buildsystem": "simple",
+      "build-commands": [
+        "npm ci --only=production",
+        "npm run build",
+        "npx electron-builder --linux flatpak --publish never"
+      ],
+      "sources": [
+        {
+          "type": "dir",
+          "path": "."
+        }
+      ]
+    }
+  ]
+}
