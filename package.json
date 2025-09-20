@@ -13,7 +13,7 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",
 		"lint": "prettier --check .",
-		"electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && cross-env ELECTRON_START_URL=http://localhost:5173 electron .\"",
+		"electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5174 && cross-env ELECTRON_START_URL=http://localhost:5174 electron .\"",
 		"electron:prod": "npm run build && electron ."
 	},
 	"devDependencies": {
