@@ -1,23 +1,28 @@
-const { app, BrowserWindow, ipcMain, shell } = require('electron');
+const { app, BrowserWindow, ipcMain, shell, Menu } = require('electron');
 const path = require('path');
 const os = require('os');
 
+let win; // ← make win global
+
 function createWindow() {
-	const win = new BrowserWindow({
+	win = new BrowserWindow({
 		width: 1500,
 		height: 768,
+		frame: false,
 		webPreferences: {
 			preload: path.join(__dirname, 'preload.js'),
 			nodeIntegration: false,
 			contextIsolation: true
-		}
+		},
+		show: false
 	});
+	
+	Menu.setApplicationMenu(null);
 
-	if (process.env.ELECTRON_START_URL) {
-		win.loadURL(process.env.ELECTRON_START_URL);
-	} else {
-		win.loadFile(path.join(__dirname, 'build/index.html'));
-	}
+	const startUrl = process.env.ELECTRON_START_URL || path.join(__dirname, 'build/index.html');
+	win.loadURL(startUrl);
+
+	win.once('ready-to-show', () => win.show());
 }
 
 app.whenReady().then(() => {
@@ -25,10 +30,17 @@ app.whenReady().then(() => {
 		if (filePath.startsWith('~')) {
 			filePath = path.join(os.homedir(), filePath.slice(1));
 		}
-
 		await shell.openPath(filePath);
 		return 'opened ' + filePath;
 	});
+
+	// window control handlers now work
+	ipcMain.on('window-minimize', () => win.minimize());
+	ipcMain.on('window-maximize', () => {
+		if (win.isMaximized()) win.unmaximize();
+		else win.maximize();
+	});
+	ipcMain.on('window-close', () => win.close());
 
 	createWindow();
 
