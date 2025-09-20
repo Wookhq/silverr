@@ -47,7 +47,7 @@
         "flatpak"
       ],
       "category": "Utility",
-      "icon": "src/assets/logo.svg"
+      "icon": "src/lib/assets/logo.svg"
     }
   },
   "dependencies": {
