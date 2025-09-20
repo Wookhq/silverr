@@ -17,7 +17,6 @@
 		"electron:prod": "npm run build && electron ."
 	},
 	"devDependencies": {
-		"@lucide/svelte": "^0.544.0",
 		"@sveltejs/adapter-auto": "^6.0.0",
 		"@sveltejs/kit": "^2.22.0",
 		"@sveltejs/vite-plugin-svelte": "^6.0.0",
@@ -47,7 +46,4 @@
 			"category": "Utility"
 		}
 	},
-	"dependencies": {
-		"@lucide/svelte": "^0.544.0"
-	}
 }
