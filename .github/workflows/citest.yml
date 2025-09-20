@@ -1,7 +1,10 @@
-name: Build Electron App
+name: Build Electron App Test
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build:
@@ -31,3 +34,4 @@ jobs:
         with:
           name: linux-build
           path: dist/**
+          retention-days: 7
