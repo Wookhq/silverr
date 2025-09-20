@@ -16,17 +16,19 @@
     "format": "prettier --write .",
     "lint": "prettier --check .",
     "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && cross-env ELECTRON_START_URL=http://localhost:5173 electron .\"",
-    "electron:prod": "npm run build && electron ."
+    "electron:prod": "npm run build && electron .",
+    "dist": "electron-builder"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "^6.0.0",
+    "@sveltejs/adapter-static": "^3.0.9",
     "@sveltejs/kit": "^2.22.0",
     "@sveltejs/vite-plugin-svelte": "^6.0.0",
     "@tailwindcss/vite": "^4.1.13",
     "concurrently": "^9.2.1",
     "cross-env": "^10.0.0",
     "daisyui": "^5.1.13",
-    "electron": "38.1.2",
+    "electron": "^38.1.2",
     "electron-builder": "^26.0.12",
     "prettier": "^3.4.2",
     "prettier-plugin-svelte": "^3.3.3",
@@ -44,7 +46,7 @@
     "electronVersion": "38.1.2",
     "linux": {
       "target": [
-        "flatpak"
+        "AppImage"
       ],
       "category": "Utility",
       "icon": "src/lib/assets/logo.svg"
@@ -52,7 +54,9 @@
   },
   "dependencies": {
     "clsx": "^2.1.1",
+    "express": "^5.1.0",
     "svelte-motion": "^0.12.2",
+    "svelte-preprocess": "^6.0.3",
     "tailwind-merge": "^3.3.1"
   }
 }

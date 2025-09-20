@@ -3,13 +3,12 @@
 	import favicon from '$lib/assets/favicon.svg';
 	import Sidebar from '$lib/components/sidebar/sidebar.svelte';
 	import Titlebar from '$lib/components/titlebar.svelte';
-	import Popup from "$lib/components/popup/popup.svelte";
+	import Popup from '$lib/components/popup/popup.svelte';
 </script>
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
 </svelte:head>
-
 
 <div data-theme="night">
 	<Titlebar />
