@@ -10,7 +10,7 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<div data-theme="night">
+<div data-theme="weirdturbo">
 	<Titlebar />
 	<Sidebar>
 		<slot />
