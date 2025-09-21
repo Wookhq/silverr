@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "description": "Silverr app",
   "author": "Wookhq ORG",
-  "main": "electron-main.cjs",
+  "main": "frontend/electron-main.cjs",
   "type": "module",
   "scripts": {
     "dev": "vite dev",
@@ -44,13 +44,24 @@
     "appId": "org.wookhq.Silverr",
     "productName": "Silverr",
     "electronVersion": "38.1.2",
+    "files": [
+      "frontend/electron-main.cjs",
+      "frontend/preload.js",
+      "build/**/*",
+      "package.json"
+    ],
+    "extraMetadata": {
+      "main": "frontend/electron-main.cjs"
+    },
     "linux": {
       "target": [
         "AppImage"
       ],
       "category": "Utility",
       "icon": "src/lib/assets/logo.svg"
-    }
+    },
+
+    "asar": true
   },
   "dependencies": {
     "clsx": "^2.1.1",
