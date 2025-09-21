@@ -31,7 +31,7 @@ function createWindow() {
 
 	console.log(startURL);
 	win.loadURL(startURL); 
-	 win.webContents.openDevTools();
+	win.webContents.openDevTools();
 	win.once('ready-to-show', () => win.show());
 }
 
@@ -45,9 +45,9 @@ app.whenReady().then(() => {
       url = url.substr(0, url.indexOf('#'));
     }
     if (path.extname(url) === '') {
-      callback({ path: path.join(__dirname, 'build', 'index.html') });
+      callback({ path: path.join(__dirname, '..', 'build', 'index.html') });
     } else {
-      callback({ path: path.join(__dirname, 'build', url) });
+      callback({ path: path.join(__dirname, '..', 'build', url) });
     }
   });
 	ipcMain.handle('read-file', async (_, filePath) => {

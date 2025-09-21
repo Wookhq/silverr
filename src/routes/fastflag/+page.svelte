@@ -62,7 +62,22 @@
 	<!-- centered content -->
 	<div class="flex w-full justify-center">
 		{#if tab === 'tab1'}
-			<div class="p-4">content for tab 1</div>
+			<div class="flex flex-col items-center justify-center gap-4 p-6">
+				<label class="flex items-center gap-2 rounded-lg bg-base-200 p-4 shadow">
+					<input type="checkbox" checked class="toggle toggle-primary" />
+					<span>able to hide gui</span>
+				</label>
+
+				<label class="flex items-center gap-2 rounded-lg bg-base-200 p-4 shadow">
+					<input type="checkbox" checked class="toggle toggle-primary" />
+					<span>able to hide gui</span>
+				</label>
+
+				<label class="flex items-center gap-2 rounded-lg bg-base-200 p-4 shadow">
+					<input type="checkbox" checked class="toggle toggle-primary" />
+					<span>able to hide gui</span>
+				</label>
+			</div>
 		{:else if tab === 'Fast flag editor'}
 			<Fastflageditor flags={editorFlags} />
 		{:else if tab === 'tab3'}
