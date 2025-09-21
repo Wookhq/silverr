@@ -1,12 +1,32 @@
 <script>
-	let tab = 'tab1';
 	import Fastflageditor from '$lib/components/fflageditor/fastflageditor.svelte';
+	let tab = 'tab1';
+	let editorFlags = [];
 
-	let initialFlags = [
-		{ id: 1, name: 'Cy Ganderton', job: 'Quality Control Specialist', fav: 'Blue' },
-		{ id: 2, name: 'Hart Hagerty', job: 'Desktop Support Technician', fav: 'Purple' },
-		{ id: 3, name: 'Brice Swyre', job: 'Tax Accountant', fav: 'Red' }
-	];
+	async function loadFlags() {
+		const result = await window.electronAPI.readFile(
+			'~/.var/app/org.vinegarhq.Sober/config/sober/config.json'
+		);
+		if (result.ok) {
+			const jsonStr = result.data.slice(result.data.indexOf('{'));
+			try {
+				const config = JSON.parse(jsonStr);
+				editorFlags = Object.entries(config.fflags).map(([key, val], i) => ({
+					id: i + 1,
+					name: key,
+					job: String(val),
+					fav: '-'
+				}));
+			} catch (e) {
+				console.error('invalid JSON:', e);
+			}
+		} else {
+			console.error('failed to read file:', result.error);
+		}
+	}
+	$: if (tab === 'Fast flag editor') {
+		loadFlags();
+	}
 </script>
 
 <div class="flex min-h-screen flex-col items-start">
@@ -44,7 +64,7 @@
 		{#if tab === 'tab1'}
 			<div class="p-4">content for tab 1</div>
 		{:else if tab === 'Fast flag editor'}
-			<Fastflageditor {initialFlags} />
+			<Fastflageditor flags={editorFlags} />
 		{:else if tab === 'tab3'}
 			<div class="p-4">content for tab 3</div>
 		{/if}

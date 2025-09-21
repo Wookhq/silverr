@@ -3,6 +3,10 @@ const { contextBridge, ipcRenderer } = require('electron');
 contextBridge.exposeInMainWorld('electronAPI', {
   openPath: (path) => ipcRenderer.invoke('open-path', path),
 
+  
+  writeFile: (path, content) => ipcRenderer.invoke('write-file', path, content),
+  readFile: (path) => ipcRenderer.invoke('read-file', path),
+
   send: (channel, data) => {
     const validChannels = ['toMain'];
     if (validChannels.includes(channel)) {

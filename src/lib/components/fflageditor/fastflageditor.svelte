@@ -31,6 +31,90 @@
       alert("Invalid JSON: " + e.message);
     }
   }
+
+
+  function exportToJson() {
+    const exportedObject = {};
+    flags.forEach(f => {
+      exportedObject[f.name] = f.job;
+    });
+    const jsonStr = JSON.stringify(exportedObject, null, 2);
+    alert(jsonStr); // optional
+    return jsonStr;  // <--- RETURN it!
+  }
+  
+  async function saveFlags() {
+    const filePath = '~/.var/app/org.vinegarhq.Sober/config/sober/config.json';
+    const result = await window.electronAPI.readFile(filePath);
+
+    if (!result.ok) {
+      console.error('failed to read file:', result.error);
+      return;
+    }
+
+    try {
+      // strip comments before parsing
+      const jsonStart = result.data.indexOf('{');
+      const jsonStr = result.data.slice(jsonStart);
+      const config = JSON.parse(jsonStr);
+
+      // update fflags key
+      config.fflags = flags.reduce((acc, f) => {
+        acc[f.name] = f.job;
+        return acc;
+      }, {});
+
+      // convert back to string, preserving 2-space indentation
+      const newJsonStr = JSON.stringify(config, null, 2);
+
+      const writeResult = await window.electronAPI.writeFile(filePath, newJsonStr);
+
+      if (writeResult.ok) {
+        console.log('fflags updated');
+      } else {
+        console.error('failed to save file:', writeResult.error);
+      }
+    } catch (err) {
+      console.error('JSON parse or write error:', err);
+    }
+  }
+  async function nukeFlags() {
+  const filePath = '~/.var/app/org.vinegarhq.Sober/config/sober/config.json';
+  const result = await window.electronAPI.readFile(filePath);
+
+  if (!result.ok) {
+    console.error('failed to read file:', result.error);
+    return;
+  }
+
+  try {
+    // strip comments before parsing
+    const jsonStart = result.data.indexOf('{');
+    const jsonStr = result.data.slice(jsonStart);
+    const config = JSON.parse(jsonStr);
+
+    // clear fflags
+    config.fflags = {};
+
+    // also clear local editor flags
+    flags = [];
+
+    // write back
+    const writeResult = await window.electronAPI.writeFile(filePath, JSON.stringify(config, null, 2));
+
+    if (writeResult.ok) {
+      console.log('all fflags cleared');
+      alert('All fflags cleared!');
+    } else {
+      console.error('failed to save file:', writeResult.error);
+    }
+  } catch (err) {
+    console.error('JSON parse or write error:', err);
+  }
+}
+
+
+
 </script>
 
 <div class="p-4 rounded-lg bg-base-100/50">
@@ -56,7 +140,12 @@
         placeholder="Paste JSON here..."
         bind:value={jsonInput}
       ></textarea>
-      <button class="btn btn-secondary" on:click={loadFromJson}>Load from JSON</button>
+      <div class="flex gap-2">
+        <button class="btn btn-secondary flex-grow" on:click={loadFromJson}>Load from JSON</button>
+        <button class="btn btn-info flex-grow" on:click={saveFlags}>Save to config</button>
+        <button class="btn btn-error flex-grow" on:click={nukeFlags}>Clear Fastflag</button>
+
+      </div>
     </div>
   </div>
 
@@ -65,9 +154,9 @@
       <thead class="bg-base-200">
         <tr>
           <th>#</th>
-          <th>Flag Name</th>
-          <th>Value</th>
-          <th class="text-right">Actions</th>
+          <th>name</th>
+          <th>value</th>
+          <th class="text-right">actions</th>
         </tr>
       </thead>
       <tbody>

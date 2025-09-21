@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain, shell, Menu, protocol } = require('electron');
 const path = require('path');
 const os = require('os');
+const fs = require('fs');
 
 protocol.registerSchemesAsPrivileged([
 	{ scheme: 'app', privileges: { secure: true, standard: true } }
@@ -30,7 +31,7 @@ function createWindow() {
 
 	console.log(startURL);
 	win.loadURL(startURL); 
-	// win.webContents.openDevTools();
+	 win.webContents.openDevTools();
 	win.once('ready-to-show', () => win.show());
 }
 
@@ -49,6 +50,32 @@ app.whenReady().then(() => {
       callback({ path: path.join(__dirname, 'build', url) });
     }
   });
+	ipcMain.handle('read-file', async (_, filePath) => {
+	try {
+		// handle ~ expansion
+		if (filePath.startsWith('~')) {
+		filePath = path.join(os.homedir(), filePath.slice(1));
+		}
+
+		const data = await fs.promises.readFile(filePath, 'utf8');
+		return { ok: true, data };
+	} catch (err) {
+		return { ok: false, error: err.message };
+	}
+	});
+
+	ipcMain.handle('write-file', async (_, filePath, content) => {
+	try {
+		if (filePath.startsWith('~')) {
+		filePath = path.join(os.homedir(), filePath.slice(1));
+		}
+		await fs.promises.writeFile(filePath, content, 'utf8');
+		return { ok: true };
+	} catch (err) {
+		return { ok: false, error: err.message };
+	}
+	});
+
 
 	ipcMain.handle('open-path', async (_, filePath) => {
 		if (filePath.startsWith('~')) {
