@@ -2,6 +2,10 @@ const { app, BrowserWindow, ipcMain, shell, Menu, protocol } = require('electron
 const path = require('path');
 const os = require('os');
 
+protocol.registerSchemesAsPrivileged([
+	{ scheme: 'app', privileges: { secure: true, standard: true } }
+]);
+
 let win;
 
 function createWindow() {
@@ -17,7 +21,7 @@ function createWindow() {
 		show: false,
     backgroundColor: '#1d232a'
 	});
-
+	
 	Menu.setApplicationMenu(null);
 
 	const startURL = process.env.ELECTRON_START_URL
@@ -25,7 +29,8 @@ function createWindow() {
 		: 'app://./';
 
 	console.log(startURL);
-	win.loadURL(startURL);
+	win.loadURL(startURL); 
+	// win.webContents.openDevTools();
 	win.once('ready-to-show', () => win.show());
 }
 
