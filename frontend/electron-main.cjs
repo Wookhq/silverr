@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain, shell, Menu, protocol } = require('electron
 const path = require('path');
 const os = require('os');
 const fs = require('fs');
+const { readJson, writeJson, editJson } = require("./helpers/jsonHelper.js");
 
 protocol.registerSchemesAsPrivileged([
 	{ scheme: 'app', privileges: { secure: true, standard: true } }
@@ -76,7 +77,23 @@ app.whenReady().then(() => {
 	}
 	});
 
+	// json
+	ipcMain.handle("json:read", async (_, filePath) => {
+	return await readJson(filePath);
+	});
 
+	ipcMain.handle("json:write", async (_, filePath, data) => {
+	return await writeJson(filePath, data);
+	});
+
+	ipcMain.handle("json:edit", async (_, filePath, updaterStr) => {
+	// deserialize updater (stringified function from renderer)
+	const updater = eval(`(${updaterStr})`);
+	return await editJson(filePath, updater);
+	});
+
+
+	// browser windows stuf
 	ipcMain.handle('open-path', async (_, filePath) => {
 		if (filePath.startsWith('~')) {
 			filePath = path.join(os.homedir(), filePath.slice(1));

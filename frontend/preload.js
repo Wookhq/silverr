@@ -7,6 +7,12 @@ contextBridge.exposeInMainWorld('electronAPI', {
   writeFile: (path, content) => ipcRenderer.invoke('write-file', path, content),
   readFile: (path) => ipcRenderer.invoke('read-file', path),
 
+
+  readJson: (path) => ipcRenderer.invoke("json:read", path),
+  writeJson: (path, data) => ipcRenderer.invoke("json:write", path, data),
+  editJson: (path, updaterStr) =>
+    ipcRenderer.invoke("json:edit", path, updaterStr),
+
   send: (channel, data) => {
     const validChannels = ['toMain'];
     if (validChannels.includes(channel)) {
