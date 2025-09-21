@@ -1,5 +1,5 @@
 <script>
-	import Fastflageditor from '$lib/components/fflageditor/fastflageditor.svelte';
+	import Fastflageditor from '$lib/components/fastflag/fflageditor/fastflageditor.svelte';
 	let tab = 'tab1';
 	let editorFlags = [];
 

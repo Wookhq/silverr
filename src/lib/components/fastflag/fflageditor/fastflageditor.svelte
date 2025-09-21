@@ -1,6 +1,6 @@
 <script>
-  import ModalYesNo from "../modalyesorno/modal.svelte";
-  import Alert from "../alert/alert.svelte";
+  import ModalYesNo from "../../modalyesorno/modal.svelte";
+  import Alert from "../../alert/alert.svelte";
 
   export let flags = [];
   let newFlag = "";
