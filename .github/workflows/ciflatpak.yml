@@ -1,7 +1,7 @@
 name: Flatpak Build
 
 on:
-  workflow_dispatch: 
+  workflow_dispatch:
 
 jobs:
   build-flatpak:
@@ -18,13 +18,13 @@ jobs:
           cache: 'npm'
 
       - name: install deps
-        run: npm ci 
+        run: npm ci
 
       - name: build svelte frontend
         run: npm run build
 
       - name: prune dev deps
-        run: npm prune --production  
+        run: npm prune --production
 
       - name: install flatpak tools
         run: |

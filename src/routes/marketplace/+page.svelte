@@ -21,7 +21,7 @@
 </script>
 
 <!-- fixed-size tabs container -->
-<div class="tabs tabs-box w-full max-w-[1200px] h-160 mx-auto">
+<div class="mx-auto tabs h-160 w-full max-w-[1200px] tabs-box">
 	<input type="radio" name="my_tabs_6" class="tab" aria-label="Themes" checked />
 	<div class="tab-content border-base-300 bg-base-100 p-6">
 		<h2 class="mb-4 font-bold">Themes</h2>
