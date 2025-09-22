@@ -7,6 +7,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   writeFile: (path, content) => ipcRenderer.invoke('write-file', path, content),
   readFile: (path) => ipcRenderer.invoke('read-file', path),
 
+  applyChanges: () => ipcRenderer.invoke("apply-changes"),
 
   readJson: (path) => ipcRenderer.invoke("json:read", path),
   writeJson: (path, data) => ipcRenderer.invoke("json:write", path, data),

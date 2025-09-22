@@ -2,7 +2,10 @@ const { app, BrowserWindow, ipcMain, shell, Menu, protocol } = require('electron
 const path = require('path');
 const os = require('os');
 const fs = require('fs');
-const { readJson, writeJson, editJson } = require("./helpers/jsonHelper.js");
+const { readJson, writeJson, editJson } = require("./helpers/jsonHelper.cjs"); // feature use
+import { Config } from "./config/genconfig";
+import { FilesFunctions } from "./utils/files";
+import { ApplyChanges } from "./ApplyFunctions";
 
 protocol.registerSchemesAsPrivileged([
 	{ scheme: 'app', privileges: { secure: true, standard: true } }
@@ -75,6 +78,14 @@ app.whenReady().then(() => {
 	} catch (err) {
 		return { ok: false, error: err.message };
 	}
+	});
+
+	
+	// apply change
+	ipcMain.handle("apply-changes", async () => {
+		const config = new Config();
+		const files = new FilesFunctions();
+		return ApplyChanges(config, files);
 	});
 
 	// json
