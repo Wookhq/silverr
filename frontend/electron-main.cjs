@@ -3,9 +3,9 @@ const path = require('path');
 const os = require('os');
 const fs = require('fs');
 const { readJson, writeJson, editJson } = require('./helpers/jsonHelper.cjs'); // feature use
-import { Config } from './config/genconfig';
-import { FilesFunctions } from './utils/files';
-import { ApplyChanges } from './ApplyFunctions';
+import { Config } from './helpers/genconfig';
+import { FilesFunctions } from './helpers/filesfun';
+import { ApplyChanges } from './helpers/confighelper';
 
 protocol.registerSchemesAsPrivileged([
 	{ scheme: 'app', privileges: { secure: true, standard: true } }
