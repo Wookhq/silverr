@@ -4,7 +4,7 @@
 	"version": "0.0.1",
 	"description": "Silverr app",
 	"author": "Wookhq ORG",
-	"main": "frontend/electron-main.cjs",
+	"main": "backend/electron-main.cjs",
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
@@ -15,8 +15,8 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",
 		"lint": "prettier --check .",
-		"electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && cross-env ELECTRON_START_URL=http://localhost:5173 electron ./frontend/electron-main.cjs\"",
-		"electron:prod": "npm run build && electron ./frontend/electron-main.cjs",
+		"electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && cross-env ELECTRON_START_URL=http://localhost:5173 electron ./backend/electron-main.cjs\"",
+		"electron:prod": "npm run build && electron ./backend/electron-main.cjs",
 		"dist": "electron-builder"
 	},
 	"devDependencies": {
@@ -45,13 +45,13 @@
 		"productName": "Silverr",
 		"electronVersion": "38.1.2",
 		"files": [
-			"frontend/electron-main.cjs",
-			"frontend/preload.js",
+			"backend/electron-main.cjs",
+			"backend/preload.js",
 			"build/**/*",
 			"package.json"
 		],
 		"extraMetadata": {
-			"main": "frontend/electron-main.cjs"
+			"main": "backend/electron-main.cjs"
 		},
 		"linux": {
 			"target": [

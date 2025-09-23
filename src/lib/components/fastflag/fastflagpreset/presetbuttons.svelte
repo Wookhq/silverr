@@ -46,4 +46,18 @@
 			</label>
 		</div>
 	</div>
+	<div class="card w-64 bg-base-200 p-5 shadow-md">
+		<div class="form-control flex flex-col gap-2">
+			<div class="flex flex-col">
+				<span class="text-lg font-semibold text-base-content">Pick a color</span>
+				<span class="text-sm text-base-content/70">choose your favorite color from the list</span>
+			</div>
+			<select class="select w-full select-primary">
+				<option disabled selected>Pick a color</option>
+				<option>Crimson</option>
+				<option>Amber</option>
+				<option>Velvet</option>
+			</select>
+		</div>
+	</div>
 </div>
