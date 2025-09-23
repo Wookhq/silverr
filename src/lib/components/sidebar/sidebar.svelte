@@ -15,11 +15,11 @@
 		<div class="mx-auto badge block badge-outline badge-warning">ALPHA</div>
 
 		<label for={drawerId} aria-label="close sidebar" class="drawer-overlay"></label>
-		<ul class="menu min-h-full w-80 bg-base-200 p-4 text-base-content">
+		<ul class="menu min-h-full w-80 bg-base-200 py-4 text-base-content mx-auto">
 			<li><a href="/">Home</a></li>
 			<li><a href="/fastflag">Fastflag</a></li>
 			<li><a href="/mods">Mods</a></li>
-			<!-- <li><a href="/marketplace">Marketplace</a></li> -->
+			<li><a href="/marketplace">Marketplace</a></li>
 		</ul>
 	</div>
 </div>
