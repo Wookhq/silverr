@@ -8,9 +8,13 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
 	applyChanges: () => ipcRenderer.invoke('apply-changes'),
 
-	readJson: (path) => ipcRenderer.invoke('json:read', path),
-	writeJson: (path, data) => ipcRenderer.invoke('json:write', path, data),
-	editJson: (path, updaterStr) => ipcRenderer.invoke('json:edit', path, updaterStr),
+	readJson: (filePath) => ipcRenderer.invoke('json:read', filePath),
+	writeJson: (filePath, data) => ipcRenderer.invoke('json:write', filePath, data),
+	editJson: (filePath, updaterStr) => ipcRenderer.invoke('json:edit', filePath, updaterStr),
+	updateFastFlag: (filePath, key, value) =>
+		ipcRenderer.invoke('fastflag:update', filePath, key, value),
+	updateSoberConf: (filePath, key, value) =>
+		ipcRenderer.invoke('sober:update', filePath, key, value),
 
 	send: (channel, data) => {
 		const validChannels = ['toMain'];

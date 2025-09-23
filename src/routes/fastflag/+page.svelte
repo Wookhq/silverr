@@ -9,15 +9,16 @@
 			'~/.var/app/org.vinegarhq.Sober/config/sober/config.json'
 		);
 		if (result.ok) {
-			const jsonStr = result.data.slice(result.data.indexOf('{'));
 			try {
-				const config = JSON.parse(jsonStr);
-				editorFlags = Object.entries(config.fflags).map(([key, val], i) => ({
-					id: i + 1,
-					name: key,
-					job: String(val),
-					fav: '-'
-				}));
+				const config = JSON.parse(result.data);
+				if (config.fflags) {
+					editorFlags = Object.entries(config.fflags).map(([key, val], i) => ({
+						id: i + 1,
+						name: key,
+						job: String(val),
+						fav: '-'
+					}));
+				}
 			} catch (e) {
 				console.error('invalid JSON:', e);
 			}
@@ -37,7 +38,7 @@
 			type="radio"
 			name="my_tabs_1"
 			class="tab"
-			aria-label="Tab 1"
+			aria-label="Presets"
 			value="tab1"
 			bind:group={tab}
 			checked
@@ -67,7 +68,7 @@
 		{:else if tab === 'Fast flag editor'}
 			<Fastflageditor flags={editorFlags} />
 		{:else if tab === 'tab3'}
-			<div class="p-4">content for tab 3</div>
+			<div class="p-4">:3</div>
 		{/if}
 	</div>
 </div>

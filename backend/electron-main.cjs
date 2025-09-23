@@ -2,10 +2,16 @@ const { app, BrowserWindow, ipcMain, shell, Menu, protocol } = require('electron
 const path = require('path');
 const os = require('os');
 const fs = require('fs');
-const { readJson, writeJson, editJson } = require('./helpers/jsonHelper.cjs'); // feature use
-// import { Config } from './helpers/genconfig';
-// import { FilesFunctions } from './helpers/filesfun';
-// import { ApplyChanges } from './helpers/confighelper';
+const {
+	readJson,
+	writeJson,
+	editJson,
+	updateFastFlag,
+	updateSoberConf
+} = require('./helpers/jsonHelper.cjs'); // feature use
+const { Mutex } = require('async-mutex');
+
+const configMutex = new Mutex();
 
 protocol.registerSchemesAsPrivileged([
 	{ scheme: 'app', privileges: { secure: true, standard: true } }
@@ -87,14 +93,41 @@ app.whenReady().then(() => {
 
 	// json
 	ipcMain.handle('json:read', async (_, filePath) => {
+		if (filePath.startsWith('~')) {
+			filePath = path.join(os.homedir(), filePath.slice(1));
+		}
 		return await readJson(filePath);
 	});
 
 	ipcMain.handle('json:write', async (_, filePath, data) => {
+		if (filePath.startsWith('~')) {
+			filePath = path.join(os.homedir(), filePath.slice(1));
+		}
 		return await writeJson(filePath, data);
 	});
 
+	ipcMain.handle('sober:update', async (_, filePath, key, value) => {
+		return await configMutex.runExclusive(async () => {
+			if (filePath.startsWith('~')) {
+				filePath = path.join(os.homedir(), filePath.slice(1));
+			}
+			return await updateSoberConf(filePath, key, value);
+		});
+	});
+
+	ipcMain.handle('fastflag:update', async (_, filePath, key, value) => {
+		return await configMutex.runExclusive(async () => {
+			if (filePath.startsWith('~')) {
+				filePath = path.join(os.homedir(), filePath.slice(1));
+			}
+			return await updateFastFlag(filePath, key, value);
+		});
+	});
+
 	ipcMain.handle('json:edit', async (_, filePath, updaterStr) => {
+		if (filePath.startsWith('~')) {
+			filePath = path.join(os.homedir(), filePath.slice(1));
+		}
 		// deserialize updater (stringified function from renderer)
 		const updater = eval(`(${updaterStr})`);
 		return await editJson(filePath, updater);
