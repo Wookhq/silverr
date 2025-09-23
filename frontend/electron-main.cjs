@@ -3,9 +3,9 @@ const path = require('path');
 const os = require('os');
 const fs = require('fs');
 const { readJson, writeJson, editJson } = require('./helpers/jsonHelper.cjs'); // feature use
-import { Config } from './helpers/genconfig';
-import { FilesFunctions } from './helpers/filesfun';
-import { ApplyChanges } from './helpers/confighelper';
+// import { Config } from './helpers/genconfig';
+// import { FilesFunctions } from './helpers/filesfun';
+// import { ApplyChanges } from './helpers/confighelper';
 
 protocol.registerSchemesAsPrivileged([
 	{ scheme: 'app', privileges: { secure: true, standard: true } }
@@ -78,12 +78,12 @@ app.whenReady().then(() => {
 		}
 	});
 
-	// apply change
-	ipcMain.handle('apply-changes', async () => {
-		const config = new Config();
-		const files = new FilesFunctions();
-		return ApplyChanges(config, files);
-	});
+	// // apply change
+	// ipcMain.handle('apply-changes', async () => {
+	// 	const config = new Config();
+	// 	const files = new FilesFunctions();
+	// 	return ApplyChanges(config, files);
+	// });
 
 	// json
 	ipcMain.handle('json:read', async (_, filePath) => {
