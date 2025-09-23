@@ -9,12 +9,12 @@
 	style="-webkit-app-region: drag; z-index: 50;"
 >
 	<button class="btn mr-1 btn-ghost btn-sm" style="-webkit-app-region: no-drag;" on:click={minimize}
-		>Z</button
+		>_</button
 	>
-	<button class="btn mr-1 btn-ghost btn-sm" style="-webkit-app-region: no-drag;" on:click={maximize}
+	<!-- <button class="btn mr-1 btn-ghost btn-sm" style="-webkit-app-region: no-drag;" on:click={maximize}
 		>O</button
-	>
+	> -->
 	<button class="btn btn-sm btn-error" style="-webkit-app-region: no-drag;" on:click={close}
-		>S</button
+		>X</button
 	>
 </div>
