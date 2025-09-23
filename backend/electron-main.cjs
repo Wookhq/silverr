@@ -8,7 +8,7 @@ const {
 	editJson,
 	updateFastFlag,
 	updateSoberConf
-} = require('./helpers/jsonHelper.cjs'); // feature use
+} = require(path.join(__dirname, 'helpers', 'jsonHelper.cjs'));
 const { Mutex } = require('async-mutex');
 
 const configMutex = new Mutex();
@@ -39,7 +39,7 @@ function createWindow() {
 
 	console.log(startURL);
 	win.loadURL(startURL);
-	win.webContents.openDevTools();
+	// win.webContents.openDevTools();
 	win.once('ready-to-show', () => win.show());
 }
 
