@@ -44,6 +44,7 @@
 		"appId": "org.wookhq.Silverr",
 		"productName": "Silverr",
 		"electronVersion": "38.1.2",
+		"nodeGypRebuild": false,
 		"files": [
 			"backend/electron-main.cjs",
 			"backend/preload.js",
@@ -61,7 +62,8 @@
 			"category": "Utility",
 			"icon": "src/lib/assets/logo.svg"
 		},
-		"asar": true
+		"asar": true,
+		"compression": "store"
 	},
 	"dependencies": {
 		"async-mutex": "^0.5.0",
