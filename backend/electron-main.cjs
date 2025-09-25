@@ -123,7 +123,7 @@ app.whenReady().then(() => {
 
 	// font
 	ipcMain.handle('mod:replace', async (_, fileContent, fileName) => {
-		const dist = path.join(
+		const overlayFontDir = path.join(
 			os.homedir(),
 			'.var',
 			'app',
@@ -134,11 +134,44 @@ app.whenReady().then(() => {
 			'content',
 			'fonts'
 		);
+		const sourceFontDir = path.join(
+			os.homedir(),
+			'.var',
+			'app',
+			'org.vinegarhq.Sober',
+			'data',
+			'sober',
+			'asset',
+			'content',
+			'fonts'
+		);
 		const tempFilePath = path.join(os.tmpdir(), fileName);
 
 		try {
+			if (!fs.existsSync(overlayFontDir)) {
+				fs.mkdirSync(overlayFontDir, { recursive: true });
+			}
+
+			const filesInOverlay = await fs.promises.readdir(overlayFontDir);
+			if (filesInOverlay.length === 0) {
+				console.log(`Overlay font directory ${overlayFontDir} is empty. Copying original fonts from ${sourceFontDir}.`);
+				if (fs.existsSync(sourceFontDir)) {
+					const originalFonts = await fs.promises.readdir(sourceFontDir);
+					for (const fontFile of originalFonts) {
+						const srcPath = path.join(sourceFontDir, fontFile);
+						const destPath = path.join(overlayFontDir, fontFile);
+						if (fs.lstatSync(srcPath).isFile()) {
+							fs.copyFileSync(srcPath, destPath);
+							console.log(`Copied ${fontFile} to ${overlayFontDir}`);
+						}
+					}
+				} else {
+					console.warn(`Original font directory ${sourceFontDir} does not exist.`);
+				}
+			}
+
 			await fs.promises.writeFile(tempFilePath, Buffer.from(fileContent));
-			replaceFileContents(tempFilePath, dist);
+			replaceFileContents(tempFilePath, overlayFontDir);
 			return { ok: true };
 		} catch (error) {
 			console.error(`Error in mod:replace: ${error.message}`);
