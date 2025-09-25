@@ -115,23 +115,23 @@ export class ApplyFunctionsTS {
 		}
 
 		// msaa
-		await genconfig.UpdateFflags('FFlagDebugDisableMSAA', false);
-		switch (msaa) {
-			case 'Off':
-				await genconfig.UpdateFflags('DFFlagTextureQualityOverrideEnabled', true);
-				await genconfig.DeleteFflag('FIntMSAASampleCount');
+		switch (sample) {
+			case '1':
+				msaa = 'Level 0 (potato)';
 				break;
-			case 'x1':
-				await genconfig.UpdateFflags('FIntMSAASampleCount', 1);
+			case '2':
+			case '3':
+				msaa = 'Level 1 (Low)';
 				break;
-			case 'x2':
-				await genconfig.UpdateFflags('FIntMSAASampleCount', 2);
+			case '4':
+				msaa = 'Level 3 (High)';
 				break;
-			case 'x4':
-				await genconfig.UpdateFflags('FIntMSAASampleCount', 4);
+			case '':
+			case undefined:
+				msaa = 'Level 4 (Ultra)';
 				break;
-			case 'Auto':
-				break;
+			default:
+				msaa = 'Unknown';
 		}
 
 		// FPS limit
