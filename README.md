@@ -14,6 +14,8 @@ Lution is a third-party application designed to enhance your experience with Sob
 
 # Build from source
 
+Make sure you have Nodejs
+
 git clone it 
 
 ```bash
