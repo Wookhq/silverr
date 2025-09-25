@@ -123,7 +123,17 @@ app.whenReady().then(() => {
 
 	// font
 	ipcMain.handle('mod:replace', async (_, fileContent, fileName) => {
-		const dist = path.join(os.homedir(), '.var', 'app', 'org.vinegarhq.Sober', 'data', 'sober', 'asset_overlay', 'content', 'fonts');
+		const dist = path.join(
+			os.homedir(),
+			'.var',
+			'app',
+			'org.vinegarhq.Sober',
+			'data',
+			'sober',
+			'asset_overlay',
+			'content',
+			'fonts'
+		);
 		const tempFilePath = path.join(os.tmpdir(), fileName);
 
 		try {
