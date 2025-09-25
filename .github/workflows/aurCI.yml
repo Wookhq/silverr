@@ -1,0 +1,42 @@
+name: Build & Push to AUR
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  aur:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: |
+        sudo pacman -Sy --noconfirm git base-devel npm nodejs
+        sudo pacman -Sy --noconfirm electron38 # make sure correct electron version
+
+    - name: Setup SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.AUR_SSH_KEY }}" > ~/.ssh/id_ed25519
+        chmod 600 ~/.ssh/id_ed25519
+        ssh-keyscan aur.archlinux.org >> ~/.ssh/known_hosts
+
+    - name: Build package
+      run: |
+        cd ~/rblx-silver-git || exit 0
+        makepkg -si --noconfirm
+
+    - name: Push to AUR
+      run: |
+        cd ~/rblx-silver-git || exit 0
+        git config user.name "GitHub Action"
+        git config user.email "action@github.com"
+        git add PKGBUILD .SRCINFO
+        git commit -m "Auto-release $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
+        git push "ssh://aur@aur.archlinux.org/$AUR_PACKAGE.git" HEAD:master
+      env:
+        AUR_PACKAGE: rblx-silver-git
