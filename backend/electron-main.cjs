@@ -154,7 +154,9 @@ app.whenReady().then(() => {
 
 			const filesInOverlay = await fs.promises.readdir(overlayFontDir);
 			if (filesInOverlay.length === 0) {
-				console.log(`Overlay font directory ${overlayFontDir} is empty. Copying original fonts from ${sourceFontDir}.`);
+				console.log(
+					`Overlay font directory ${overlayFontDir} is empty. Copying original fonts from ${sourceFontDir}.`
+				);
 				if (fs.existsSync(sourceFontDir)) {
 					const originalFonts = await fs.promises.readdir(sourceFontDir);
 					for (const fontFile of originalFonts) {
