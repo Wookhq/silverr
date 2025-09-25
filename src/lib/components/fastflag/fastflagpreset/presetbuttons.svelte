@@ -18,11 +18,14 @@
 	// bind each toggle
 	let toggleOne = true;
 	let fpsLimit = 60;
+	let fontSize = 1;
 	let toggleTwo = false;
 	let toggleThree = true;
 	let toggleFour = false;
 	let toggleFive = false;
 	let lightingTech = 'Voxel Lighting (Phase 1)'; // default value
+	let tex = 'Choose';
+	let msaa = 'Off';
 
 	async function updateSettings() {
 		await apply.applyChanges({
@@ -31,11 +34,11 @@
 			rpc1: toggleOne,
 			renderTech: toggleFive,
 			bbchat: toggleTwo,
-			fontSize: 14,
+			fontSize: fontSize,
 			disablePrSh: toggleThree,
 			useOldRobloxSounds: toggleFour,
-			textureQua: 'Level 2 (Medium)',
-			msaa: 'x2'
+			textureQua: tex,
+			msaa: msaa
 		});
 
 		// update fflags directly example
@@ -72,6 +75,55 @@
 			} else if (config.fflags.FIntRenderShadowIntensity == '0') {
 				toggleThree = true;
 			}
+			if (config.fflags.FIntFontSizePadding) {
+				fontSize = config.fflags.FIntFontSizePadding;
+			}
+			if (config.fflags.DFIntTextureQualityOverride) {
+				switch (config.fflags.DFIntTextureQualityOverride) {
+					case 0:
+						tex = 'Level 0 (potato)';
+						break;
+					case 1:
+						tex = 'Level 1 (Low)';
+						break;
+					case 2:
+						tex = 'Level 1 (Low)';
+						break;
+					case 3:
+						tex = 'Level 3 (High)';
+						break;
+					case 4:
+						tex = 'Level 4 (Ultra)';
+						break;
+				}
+			}
+
+			const msaaFlag = config.fflags.FIntMSAASampleCount;
+			if (config.fflags.FFlagDebugDisableMSAA) {
+				msaa = 'Off';
+			} else {
+				switch (msaaFlag) {
+					case '1':
+						msaa = 'x1';
+						break;
+					case '2':
+						msaa = 'x2';
+						break;
+	}
+					case '3':
+						msaa = 'x3';
+						break;
+					case '4':
+						msaa = 'x4';
+						break;
+					case undefined:
+					case '':
+						msaa = 'Auto';
+						break;
+					default:
+						msaa = 'Auto';
+				}
+			}
 		}
 	});
 </script>
@@ -91,6 +143,19 @@
 				placeholder="Type here"
 				class="input-bordered input"
 				bind:value={fpsLimit}
+			/>
+		</div>
+	</div>
+	<div class="card w-full bg-base-200 p-5 shadow-md">
+		<div class="form-control">
+			<label class="label">
+				<span class="label-text">Font size</span>
+			</label>
+			<input
+				type="number"
+				placeholder="Type here"
+				class="input-bordered input"
+				bind:value={fontSize}
 			/>
 		</div>
 	</div>
@@ -165,6 +230,39 @@
 				<option>Voxel Lighting (Phase 1)</option>
 				<option>Shadowmap Lighting (Phase 2)</option>
 				<option>Future Lighting (Phase 3)</option>
+			</select>
+		</div>
+	</div>
+	<div class="card w-full bg-base-200 p-5 shadow-md">
+		<div class="form-control flex flex-col gap-2">
+			<div class="flex flex-col">
+				<span class="text-lg font-semibold text-base-content">Preferred Texture Quality</span>
+				<span class="text-sm text-base-content/70">ingore my english gammar pls</span>
+			</div>
+			<select class="select w-full select-primary" bind:value={tex}>
+				<option disabled selected>Choose</option>
+				<option>Level 0 (potato)</option>
+				<option>Level 1 (Low)</option>
+				<option>Level 2 (Medium)</option>
+				<option>Level 3 (High)</option>
+				<option>Level 4 (Ultra)</option>
+			</select>
+		</div>
+	</div>
+	<div class="card w-full bg-base-200 p-5 shadow-md">
+		<div class="form-control flex flex-col gap-2">
+			<div class="flex flex-col">
+				<span class="text-lg font-semibold text-base-content">MSAA</span>
+				<span class="text-sm text-base-content/70">cookies</span>
+			</div>
+			<select class="select w-full select-primary" bind:value={msaa}>
+				<option disabled selected>Choose</option>
+				<option>Off</option>
+				<option>x1</option>
+				<option>x2</option>
+				<option>x3</option>
+				<option>x4</option>
+				<option>Auto</option>
 			</select>
 		</div>
 	</div>
