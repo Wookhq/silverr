@@ -57,7 +57,7 @@
 		},
 		"linux": {
 			"target": [
-				"flatpak"
+				"AppImage"
 			],
 			"category": "Utility",
 			"icon": "src/lib/assets/silverr.svg"
