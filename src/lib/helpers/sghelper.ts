@@ -115,23 +115,21 @@ export class ApplyFunctionsTS {
 		}
 
 		// msaa
-		switch (sample) {
-			case '1':
-				msaa = 'Level 0 (potato)';
-				break;
-			case '2':
-			case '3':
-				msaa = 'Level 1 (Low)';
-				break;
-			case '4':
-				msaa = 'Level 3 (High)';
-				break;
-			case '':
-			case undefined:
-				msaa = 'Level 4 (Ultra)';
-				break;
-			default:
-				msaa = 'Unknown';
+		if (msaa === 'Off') {
+			await genconfig.UpdateFflags('FFlagDebugDisableMSAA', true);
+			await genconfig.DeleteFflag('FIntMSAASampleCount');
+		} else {
+			await genconfig.UpdateFflags('FFlagDebugDisableMSAA', false);
+			if (msaa === 'Auto') {
+				await genconfig.DeleteFflag('FIntMSAASampleCount');
+			} else {
+				const msaaMap: Record<string, number> = {
+					x1: 1,
+					x2: 2,
+					x4: 4
+				};
+				await genconfig.UpdateFflags('FIntMSAASampleCount', msaaMap[msaa]);
+			}
 		}
 
 		// FPS limit

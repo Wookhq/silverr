@@ -109,7 +109,6 @@
 					case '2':
 						msaa = 'x2';
 						break;
-	}
 					case '3':
 						msaa = 'x3';
 						break;
