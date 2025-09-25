@@ -6,6 +6,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
 	writeFile: (path, content) => ipcRenderer.invoke('write-file', path, content),
 	readFile: (path) => ipcRenderer.invoke('read-file', path),
 
+	replaceFileContents: (fileContent, fileName) => ipcRenderer.invoke('mod:replace', fileContent, fileName),
+
 	downloadFileFromUrl: (url) => ipcRenderer.invoke('github:downloadlfs', url),
 
 	getLocalAssets: () => ipcRenderer.invoke('local:get-assets'),

@@ -1,19 +1,19 @@
 <script lang="ts">
-	import { downloadAsset } from "$lib/helpers/downloadMarketplace"
+	import { downloadAsset } from '$lib/helpers/downloadMarketplace';
 
 	export let content: {
-		title: string
-		body: string
-		image: string
-		link?: string
-		type?: string
-	}
+		title: string;
+		body: string;
+		image: string;
+		link?: string;
+		type?: string;
+	};
 
 	async function handleInstall() {
 		if (content.link) {
-			await downloadAsset(content.link)
+			await downloadAsset(content.link);
 		} else {
-			console.warn("no link for this content")
+			console.warn('no link for this content');
 		}
 	}
 </script>
@@ -26,9 +26,7 @@
 		<h2 class="card-title text-sm leading-tight">{content.title}</h2>
 		<p class="line-clamp-2 text-xs">{content.body}</p>
 		<div class="card-actions justify-end">
-			<button class="btn btn-soft btn-xs btn-primary" on:click={handleInstall}>
-				install
-			</button>
+			<button class="btn btn-soft btn-xs btn-primary" on:click={handleInstall}> install </button>
 		</div>
 	</div>
 </div>

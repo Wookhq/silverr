@@ -7,6 +7,7 @@ const { readJson, writeJson, editJson, updateFastFlag, updateSoberConf } = requi
 );
 const { downloadFileFromUrl } = require(path.join(__dirname, 'helpers', 'filestream.cjs'));
 const { Mutex } = require('async-mutex');
+const { replaceFileContents } = require('./helpers/fileReplacer.cjs');
 
 const configMutex = new Mutex();
 
@@ -120,6 +121,26 @@ app.whenReady().then(() => {
 	// 	return ApplyChanges(config, files);
 	// });
 
+	// font
+	ipcMain.handle('mod:replace', async (_, fileContent, fileName) => {
+		const dist = path.join(os.homedir(), '.var', 'app', 'org.vinegarhq.Sober', 'data', 'sober', 'asset_overlay', 'content', 'fonts');
+		const tempFilePath = path.join(os.tmpdir(), fileName);
+
+		try {
+			await fs.promises.writeFile(tempFilePath, Buffer.from(fileContent));
+			replaceFileContents(tempFilePath, dist);
+			return { ok: true };
+		} catch (error) {
+			console.error(`Error in mod:replace: ${error.message}`);
+			return { ok: false, error: error.message };
+		} finally {
+			// Clean up the temporary file
+			if (fs.existsSync(tempFilePath)) {
+				await fs.promises.unlink(tempFilePath);
+			}
+		}
+	});
+
 	// json
 	ipcMain.handle('json:read', async (_, filePath) => {
 		if (filePath.startsWith('~')) {
@@ -187,7 +208,15 @@ app.whenReady().then(() => {
 	ipcMain.handle('local:apply-asset', async (_, fileName) => {
 		const assetsDir = path.join(app.getPath('userData'), 'marketplace_assets');
 		const filePath = path.join(assetsDir, fileName);
-		const overlayDir = path.join(os.homedir(), '.var', 'app', 'org.vinegarhq.Sober', 'data', 'sober', 'asset_overlay');
+		const overlayDir = path.join(
+			os.homedir(),
+			'.var',
+			'app',
+			'org.vinegarhq.Sober',
+			'data',
+			'sober',
+			'asset_overlay'
+		);
 
 		try {
 			// Clean the directory
