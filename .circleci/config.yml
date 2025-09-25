@@ -3,24 +3,15 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: cimg/node:22  # node 22 environment
+      - image: node:22   # official node image
     working_directory: ~/repo
+
     steps:
       - checkout
-
-      - restore_cache:
-          keys:
-            - npm-deps-{{ checksum "package.json" }}
-            - npm-deps-
 
       - run:
           name: install deps
           command: npm ci
-
-      - save_cache:
-          key: npm-deps-{{ checksum "package.json" }}
-          paths:
-            - node_modules
 
       - run:
           name: build svelte frontend
@@ -29,8 +20,8 @@ jobs:
       - run:
           name: install flatpak
           command: |
-            sudo apt-get update
-            sudo apt-get install -y flatpak flatpak-builder
+            apt-get update
+            apt-get install -y flatpak flatpak-builder
 
       - run:
           name: build electron app (linux)
