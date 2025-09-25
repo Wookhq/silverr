@@ -10,6 +10,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
 	getLocalAssets: () => ipcRenderer.invoke('local:get-assets'),
 	deleteLocalAsset: (fileName) => ipcRenderer.invoke('local:delete-asset', fileName),
+	applyAsset: (fileName) => ipcRenderer.invoke('local:apply-asset', fileName),
 	getLocalAssetsPath: () => ipcRenderer.invoke('local:get-assets-path'),
 
 	readJson: (filePath) => ipcRenderer.invoke('json:read', filePath),

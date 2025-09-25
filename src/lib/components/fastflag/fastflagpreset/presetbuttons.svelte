@@ -8,7 +8,7 @@
 	let showAlert = false;
 
 	let apply = new ApplyFunctionsTS();
-	
+
 	function showAlertMessage(msg, timeout = 3000) {
 		alertMessage = msg;
 		showAlert = true;
@@ -43,7 +43,7 @@
 
 		console.log('LightTech:', apply.loadLightTechConfig());
 		console.log('OpenGL?', await apply.usingOpenGl());
-		showAlertMessage("Applied !")
+		showAlertMessage('Applied !');
 	}
 
 	onMount(async () => {

@@ -183,6 +183,28 @@ app.whenReady().then(() => {
 	app.on('activate', () => {
 		if (BrowserWindow.getAllWindows().length === 0) createWindow();
 	});
+
+	ipcMain.handle('local:apply-asset', async (_, fileName) => {
+		const assetsDir = path.join(app.getPath('userData'), 'marketplace_assets');
+		const filePath = path.join(assetsDir, fileName);
+		const overlayDir = path.join(os.homedir(), '.var', 'app', 'org.vinegarhq.Sober', 'data', 'sober', 'asset_overlay');
+
+		try {
+			// Clean the directory
+			if (fs.existsSync(overlayDir)) {
+				fs.rmSync(overlayDir, { recursive: true, force: true });
+			}
+			fs.mkdirSync(overlayDir, { recursive: true });
+
+			// Copy the asset
+			const destPath = path.join(overlayDir, fileName);
+			fs.copyFileSync(filePath, destPath);
+
+			return { ok: true };
+		} catch (err) {
+			return { ok: false, error: err.message };
+		}
+	});
 });
 
 app.on('window-all-closed', () => {
