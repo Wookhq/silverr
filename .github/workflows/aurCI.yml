@@ -13,10 +13,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Install dependencies
-      run: |
-        sudo pacman -Sy --noconfirm git base-devel npm nodejs
-        sudo pacman -Sy --noconfirm electron38 # make sure correct electron version
+    - name: Run in Arch Linux
+      uses: manics/setup-arch@v2
+      with:
+        packages: git base-devel npm nodejs electron38
 
     - name: Setup SSH
       run: |
@@ -27,12 +27,12 @@ jobs:
 
     - name: Build package
       run: |
-        cd ~/rblx-silver-git || exit 0
+        cd $GITHUB_WORKSPACE
         makepkg -si --noconfirm
 
     - name: Push to AUR
       run: |
-        cd ~/rblx-silver-git || exit 0
+        cd $GITHUB_WORKSPACE
         git config user.name "GitHub Action"
         git config user.email "action@github.com"
         git add PKGBUILD .SRCINFO
