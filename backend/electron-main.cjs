@@ -2,13 +2,10 @@ const { app, BrowserWindow, ipcMain, shell, Menu, protocol } = require('electron
 const path = require('path');
 const os = require('os');
 const fs = require('fs');
-const {
-	readJson,
-	writeJson,
-	editJson,
-	updateFastFlag,
-	updateSoberConf
-} = require(path.join(__dirname, 'helpers', 'jsonHelper.cjs'));
+const { readJson, writeJson, editJson, updateFastFlag, updateSoberConf } = require(
+	path.join(__dirname, 'helpers', 'jsonHelper.cjs')
+);
+const { downloadFileFromUrl } = require(path.join(__dirname, 'helpers', 'filestream.cjs'));
 const { Mutex } = require('async-mutex');
 
 const configMutex = new Mutex();
@@ -39,7 +36,7 @@ function createWindow() {
 
 	console.log(startURL);
 	win.loadURL(startURL);
-	// win.webContents.openDevTools();
+	win.webContents.openDevTools();
 	win.once('ready-to-show', () => win.show());
 }
 
@@ -82,6 +79,38 @@ app.whenReady().then(() => {
 		} catch (err) {
 			return { ok: false, error: err.message };
 		}
+	});
+
+	ipcMain.handle('github:downloadlfs', async (_, url, fileName) => {
+		return downloadFileFromUrl(url, fileName);
+	});
+
+	ipcMain.handle('local:get-assets', async () => {
+		const assetsDir = path.join(app.getPath('userData'), 'marketplace_assets');
+		try {
+			if (!fs.existsSync(assetsDir)) {
+				fs.mkdirSync(assetsDir, { recursive: true });
+			}
+			const files = await fs.promises.readdir(assetsDir);
+			return { ok: true, files };
+		} catch (err) {
+			return { ok: false, error: err.message };
+		}
+	});
+
+	ipcMain.handle('local:delete-asset', async (_, fileName) => {
+		const assetsDir = path.join(app.getPath('userData'), 'marketplace_assets');
+		const filePath = path.join(assetsDir, fileName);
+		try {
+			await fs.promises.unlink(filePath);
+			return { ok: true };
+		} catch (err) {
+			return { ok: false, error: err.message };
+		}
+	});
+
+	ipcMain.handle('local:get-assets-path', async () => {
+		return path.join(app.getPath('userData'), 'marketplace_assets');
 	});
 
 	// // apply change

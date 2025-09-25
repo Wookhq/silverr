@@ -6,7 +6,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
 	writeFile: (path, content) => ipcRenderer.invoke('write-file', path, content),
 	readFile: (path) => ipcRenderer.invoke('read-file', path),
 
-	applyChanges: () => ipcRenderer.invoke('apply-changes'),
+	downloadFileFromUrl: (url) => ipcRenderer.invoke('github:downloadlfs', url),
+
+	getLocalAssets: () => ipcRenderer.invoke('local:get-assets'),
+	deleteLocalAsset: (fileName) => ipcRenderer.invoke('local:delete-asset', fileName),
+	getLocalAssetsPath: () => ipcRenderer.invoke('local:get-assets-path'),
 
 	readJson: (filePath) => ipcRenderer.invoke('json:read', filePath),
 	writeJson: (filePath, data) => ipcRenderer.invoke('json:write', filePath, data),
