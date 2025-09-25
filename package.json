@@ -57,10 +57,10 @@
 		},
 		"linux": {
 			"target": [
-				"AppImage"
+				"flatpak"
 			],
 			"category": "Utility",
-			"icon": "src/lib/assets/logo.svg"
+			"icon": "src/lib/assets/silverr.svg"
 		},
 		"asar": true,
 		"compression": "store"
