@@ -141,7 +141,7 @@ app.whenReady().then(() => {
 			'org.vinegarhq.Sober',
 			'data',
 			'sober',
-			'asset',
+			'assets',
 			'content',
 			'fonts'
 		);
