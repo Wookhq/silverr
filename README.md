@@ -8,7 +8,7 @@
 
 # What is Silver?
 
-Lution is a third-party application designed to enhance your experience with Sober by providing quality-of-life improvements and additional features. Similar to other bootstrappers like [Lucem](https://github.com/xTrayambak/lucem) and [Bloxstrap](https://github.com/bloxstraplabs/bloxstrap).
+Silver is a third-party application designed to enhance your experience with Sober by providing quality-of-life improvements and additional features. Similar to other bootstrappers like [Lucem](https://github.com/xTrayambak/lucem) and [Bloxstrap](https://github.com/bloxstraplabs/bloxstrap).
 
 -----
 
