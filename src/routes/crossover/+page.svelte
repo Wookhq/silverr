@@ -18,7 +18,9 @@
 	<h1 class="mb-4 text-2xl font-bold">Crossover</h1>
 
 	<div class="mb-4">
-		<button on:click={createCrossoverFile} class="btn btn-primary">Create and Pack Crossover Project</button>
+		<button on:click={createCrossoverFile} class="btn btn-primary"
+			>Create and Pack Crossover Project</button
+		>
 	</div>
 
 	<div class="mb-4">

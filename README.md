@@ -4,19 +4,19 @@
 
 </div>
 
-----
+---
 
 # What is Silver?
 
 Silver is a third-party application designed to enhance your experience with Sober by providing quality-of-life improvements and additional features. Similar to other bootstrappers like [Lucem](https://github.com/xTrayambak/lucem) and [Bloxstrap](https://github.com/bloxstraplabs/bloxstrap).
 
------
+---
 
 # Build from source
 
 Make sure you have Nodejs
 
-git clone it 
+git clone it
 
 ```bash
     git clone https://github.com/Wookhq/silverr.git

@@ -33,8 +33,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
 		ipcRenderer.invoke('crossover:unpack', crossover_file, dest_folder),
 	crossoverUnpackAndCrossover: (crossover_file) =>
 		ipcRenderer.invoke('crossover:unpack-and-crossover', crossover_file),
-	crossoverCreateAndPack: (baseDir) =>
-		ipcRenderer.invoke('crossover:create-and-pack', baseDir),
+	crossoverCreateAndPack: (baseDir) => ipcRenderer.invoke('crossover:create-and-pack', baseDir),
 
 	openDialog: () => ipcRenderer.invoke('dialog:openFile'),
 	openDirectoryDialog: () => ipcRenderer.invoke('dialog:openDirectory'),

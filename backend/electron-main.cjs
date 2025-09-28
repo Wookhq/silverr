@@ -221,7 +221,15 @@ app.whenReady().then(() => {
 	});
 
 	ipcMain.handle('fastflag:save-all', async (_, flags) => {
-		const filePath = path.join(os.homedir(), '.var', 'app', 'org.vinegarhq.Sober', 'config', 'sober', 'config.json');
+		const filePath = path.join(
+			os.homedir(),
+			'.var',
+			'app',
+			'org.vinegarhq.Sober',
+			'config',
+			'sober',
+			'config.json'
+		);
 		return await configMutex.runExclusive(async () => {
 			let config = await readJson(filePath);
 			config.fflags = flags;
