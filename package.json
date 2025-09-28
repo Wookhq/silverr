@@ -25,6 +25,7 @@
 		"@sveltejs/kit": "^2.22.0",
 		"@sveltejs/vite-plugin-svelte": "^6.0.0",
 		"@tailwindcss/vite": "^4.1.13",
+		"@types/archiver": "^6.0.3",
 		"concurrently": "^9.2.1",
 		"cross-env": "^10.0.0",
 		"daisyui": "^5.1.13",
@@ -66,6 +67,7 @@
 		"compression": "store"
 	},
 	"dependencies": {
+		"archiver": "^7.0.1",
 		"async-mutex": "^0.5.0",
 		"clsx": "^2.1.1",
 		"express": "^5.1.0",
