@@ -220,6 +220,15 @@ app.whenReady().then(() => {
 		});
 	});
 
+	ipcMain.handle('fastflag:save-all', async (_, flags) => {
+		const filePath = path.join(os.homedir(), '.var', 'app', 'org.vinegarhq.Sober', 'config', 'sober', 'config.json');
+		return await configMutex.runExclusive(async () => {
+			let config = await readJson(filePath);
+			config.fflags = flags;
+			return await writeJson(filePath, config);
+		});
+	});
+
 	ipcMain.handle('json:edit', async (_, filePath, updaterStr) => {
 		if (filePath.startsWith('~')) {
 			filePath = path.join(os.homedir(), filePath.slice(1));
@@ -258,43 +267,67 @@ app.whenReady().then(() => {
 		return await crossover.unpack(crossover_file, dest_folder);
 	});
 
-		ipcMain.handle('crossover:unpack-and-crossover', async (_, crossover_file) => {
-			if (crossover_file.startsWith('~')) {
-				crossover_file = path.join(os.homedir(), crossover_file.slice(1));
-			}
-			const tempDir = path.join(os.tmpdir(), `crossover-${Date.now()}`);
-			const unpackedDir = await crossover.unpack(crossover_file, tempDir);
-			if (unpackedDir) {
-				const files = await fs.promises.readdir(unpackedDir);
-				if (files.length === 1) {
-					const singleFilePath = path.join(unpackedDir, files[0]);
-					const stats = await fs.promises.stat(singleFilePath);
-					if (stats.isDirectory()) {
-						return await crossover.crossover(singleFilePath);
-					}
+	ipcMain.handle('crossover:create-and-pack', async (_, baseDir) => {
+		const projectName = `crossover-project-${Date.now()}`;
+		const projectDir = path.join(baseDir, projectName);
+
+		// Create the project
+		await crossover.create(projectDir);
+
+		// Pack the project
+		const packedFile = await crossover.pack(projectDir);
+
+		return packedFile;
+	});
+
+	ipcMain.handle('crossover:unpack-and-crossover', async (_, crossover_file) => {
+		if (crossover_file.startsWith('~')) {
+			crossover_file = path.join(os.homedir(), crossover_file.slice(1));
+		}
+		const tempDir = path.join(os.tmpdir(), `crossover-${Date.now()}`);
+		const unpackedDir = await crossover.unpack(crossover_file, tempDir);
+		if (unpackedDir) {
+			const files = await fs.promises.readdir(unpackedDir);
+			if (files.length === 1) {
+				const singleFilePath = path.join(unpackedDir, files[0]);
+				const stats = await fs.promises.stat(singleFilePath);
+				if (stats.isDirectory()) {
+					return await crossover.crossover(singleFilePath);
 				}
-				return await crossover.crossover(unpackedDir);
 			}
-		});		
-				ipcMain.handle('dialog:openFile', async () => {
-					const { canceled, filePaths } = await dialog.showOpenDialog(win, {
-						properties: ['openFile']
-					});
-					if (canceled) {
-						return null;
-								}
-								return filePaths[0];
-							});
-					
-							ipcMain.handle('dialog:openDirectory', async () => {
-								const { canceled, filePaths } = await dialog.showOpenDialog(win, {
-									properties: ['openDirectory']
-								});
-								if (canceled) {
-									return null;
-								}
-								return filePaths[0];
-							});	// browser windows stuf
+			return await crossover.crossover(unpackedDir);
+		}
+	});
+	ipcMain.handle('dialog:openFile', async () => {
+		const { canceled, filePaths } = await dialog.showOpenDialog(win, {
+			properties: ['openFile']
+		});
+		if (canceled) {
+			return null;
+		}
+		return filePaths[0];
+	});
+
+	ipcMain.handle('crossover:create-crossover-file', async () => {
+		const { canceled: canceledFile, filePath: destPath } = await dialog.showSaveDialog(win, {
+			filters: [{ name: 'Crossover Files', extensions: ['crossover'] }]
+		});
+
+		if (canceledFile) {
+			return null;
+		}
+
+		return await crossover.pack(destPath);
+	});
+	ipcMain.handle('dialog:openDirectory', async () => {
+		const { canceled, filePaths } = await dialog.showOpenDialog(win, {
+			properties: ['openDirectory']
+		});
+		if (canceled) {
+			return null;
+		}
+		return filePaths[0];
+	}); // browser windows stuf
 	ipcMain.handle('open-path', async (_, filePath) => {
 		if (filePath.startsWith('~')) {
 			filePath = path.join(os.homedir(), filePath.slice(1));
