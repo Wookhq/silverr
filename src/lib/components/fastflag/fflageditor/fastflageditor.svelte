@@ -41,26 +41,20 @@
 	}
 
 	async function saveFlags() {
-		const filePath = '~/.var/app/org.vinegarhq.Sober/config/sober/config.json';
-		const res = await window.electronAPI.readFile(filePath);
-		if (!res.ok) return console.error(res.error);
-
 		try {
-			const jsonStr = res.data.slice(res.data.indexOf('{'));
-			const config = JSON.parse(jsonStr);
-
-			config.fflags = flags.reduce((acc, f) => {
+			const fflags = flags.reduce((acc, f) => {
 				acc[f.name] = f.job;
 				return acc;
 			}, {});
-			const writeRes = await window.electronAPI.writeFile(
-				filePath,
-				JSON.stringify(config, null, 2)
-			);
-			if (writeRes.ok) {
+			const writeRes = await window.electronAPI.fastflagSaveAll(fflags);
+			if (writeRes) {
 				showAlertMessage('fflags saved');
-			} else console.error(writeRes.error);
+			} else {
+				showAlertMessage('Error saving flags');
+				console.error('Error saving flags');
+			}
 		} catch (e) {
+			showAlertMessage('Error saving flags');
 			console.error(e);
 		}
 	}
