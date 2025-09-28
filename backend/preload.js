@@ -24,6 +24,18 @@ contextBridge.exposeInMainWorld('electronAPI', {
 	updateSoberConf: (filePath, key, value) =>
 		ipcRenderer.invoke('sober:update', filePath, key, value),
 
+	crossover: (folder) => ipcRenderer.invoke('crossover:crossover', folder),
+	crossoverCreate: (folder, roblox_platform, crossover_version) =>
+		ipcRenderer.invoke('crossover:create', folder, roblox_platform, crossover_version),
+	crossoverPack: (folder) => ipcRenderer.invoke('crossover:pack', folder),
+	crossoverUnpack: (crossover_file, dest_folder) =>
+		ipcRenderer.invoke('crossover:unpack', crossover_file, dest_folder),
+	crossoverUnpackAndCrossover: (crossover_file) =>
+		ipcRenderer.invoke('crossover:unpack-and-crossover', crossover_file),
+
+	openDialog: () => ipcRenderer.invoke('dialog:openFile'),
+	openDirectoryDialog: () => ipcRenderer.invoke('dialog:openDirectory'),
+
 	send: (channel, data) => {
 		const validChannels = ['toMain'];
 		if (validChannels.includes(channel)) {

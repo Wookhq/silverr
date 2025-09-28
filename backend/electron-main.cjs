@@ -1,10 +1,11 @@
-const { app, BrowserWindow, ipcMain, shell, Menu, protocol } = require('electron');
+const { app, BrowserWindow, ipcMain, shell, Menu, protocol, dialog } = require('electron');
 const path = require('path');
 const os = require('os');
 const fs = require('fs');
 const { readJson, writeJson, editJson, updateFastFlag, updateSoberConf } = require(
 	path.join(__dirname, 'helpers', 'jsonHelper.cjs')
 );
+const { Crossover } = require(path.join(__dirname, 'helpers', 'crossover.cjs'));
 const { downloadFileFromUrl } = require(path.join(__dirname, 'helpers', 'filestream.cjs'));
 const { Mutex } = require('async-mutex');
 const { replaceFileContents } = require('./helpers/fileReplacer.cjs');
@@ -228,7 +229,72 @@ app.whenReady().then(() => {
 		return await editJson(filePath, updater);
 	});
 
-	// browser windows stuf
+	const crossover = new Crossover();
+	ipcMain.handle('crossover:crossover', async (_, folder) => {
+		if (folder.startsWith('~')) {
+			folder = path.join(os.homedir(), folder.slice(1));
+		}
+		return await crossover.crossover(folder);
+	});
+	ipcMain.handle('crossover:create', async (_, folder, roblox_platform, crossover_version) => {
+		if (folder.startsWith('~')) {
+			folder = path.join(os.homedir(), folder.slice(1));
+		}
+		return await crossover.create(folder, roblox_platform, crossover_version);
+	});
+	ipcMain.handle('crossover:pack', async (_, folder) => {
+		if (folder.startsWith('~')) {
+			folder = path.join(os.homedir(), folder.slice(1));
+		}
+		return await crossover.pack(folder);
+	});
+	ipcMain.handle('crossover:unpack', async (_, crossover_file, dest_folder) => {
+		if (crossover_file.startsWith('~')) {
+			crossover_file = path.join(os.homedir(), crossover_file.slice(1));
+		}
+		if (dest_folder && dest_folder.startsWith('~')) {
+			dest_folder = path.join(os.homedir(), dest_folder.slice(1));
+		}
+		return await crossover.unpack(crossover_file, dest_folder);
+	});
+
+		ipcMain.handle('crossover:unpack-and-crossover', async (_, crossover_file) => {
+			if (crossover_file.startsWith('~')) {
+				crossover_file = path.join(os.homedir(), crossover_file.slice(1));
+			}
+			const tempDir = path.join(os.tmpdir(), `crossover-${Date.now()}`);
+			const unpackedDir = await crossover.unpack(crossover_file, tempDir);
+			if (unpackedDir) {
+				const files = await fs.promises.readdir(unpackedDir);
+				if (files.length === 1) {
+					const singleFilePath = path.join(unpackedDir, files[0]);
+					const stats = await fs.promises.stat(singleFilePath);
+					if (stats.isDirectory()) {
+						return await crossover.crossover(singleFilePath);
+					}
+				}
+				return await crossover.crossover(unpackedDir);
+			}
+		});		
+				ipcMain.handle('dialog:openFile', async () => {
+					const { canceled, filePaths } = await dialog.showOpenDialog(win, {
+						properties: ['openFile']
+					});
+					if (canceled) {
+						return null;
+								}
+								return filePaths[0];
+							});
+					
+							ipcMain.handle('dialog:openDirectory', async () => {
+								const { canceled, filePaths } = await dialog.showOpenDialog(win, {
+									properties: ['openDirectory']
+								});
+								if (canceled) {
+									return null;
+								}
+								return filePaths[0];
+							});	// browser windows stuf
 	ipcMain.handle('open-path', async (_, filePath) => {
 		if (filePath.startsWith('~')) {
 			filePath = path.join(os.homedir(), filePath.slice(1));
