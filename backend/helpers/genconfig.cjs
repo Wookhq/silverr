@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const jsonc = require('jsonc-parser');
 
 class Config {
 	soberConfigPath;
@@ -14,7 +15,8 @@ class Config {
 	readJson(filePath) {
 		if (!fs.existsSync(filePath)) return {};
 		try {
-			return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+			const content = fs.readFileSync(filePath, 'utf-8');
+			return jsonc.parse(content);
 		} catch {
 			return {};
 		}
