@@ -133,9 +133,9 @@ export class ApplyFunctionsTS {
 		}
 
 		// FPS limit
-		await genconfig.UpdateFflags('DFIntTaskSchedulerTargetFps', fpsLimit);
-		await genconfig.UpdateFflags('FFlagGameBasicSettingsFramerateCap5', true);
-		await genconfig.UpdateFflags('FFlagTaskSchedulerLimitTargetFpsTo2402', false);
+		// await genconfig.UpdateFflags('DFIntTaskSchedulerTargetFps', fpsLimit);
+		// await genconfig.UpdateFflags('FFlagGameBasicSettingsFramerateCap5', true);
+		// await genconfig.UpdateFflags('FFlagTaskSchedulerLimitTargetFpsTo2402', false);
 
 		// discord rpc
 		await genconfig.UpdateSoberConfig('discord_rpc_enabled', rpc1);
@@ -156,7 +156,7 @@ export class ApplyFunctionsTS {
 		await genconfig.UpdateFflags('FFlagEnableBubbleChatFromChatService', bbchat);
 
 		// font size
-		await genconfig.UpdateFflags('FIntFontSizePadding', fontSize);
+		// await genconfig.UpdateFflags('FIntFontSizePadding', fontSize);
 	}
 
 	applyFFlags(fflags: FFlags) {
