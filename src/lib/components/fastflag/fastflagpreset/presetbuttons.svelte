@@ -132,7 +132,6 @@
 {/if}
 
 <div class="mx-auto flex w-full flex-col gap-4">
-
 	<div role="alert" class="mb-4 alert alert-warning">
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -190,7 +189,8 @@
 		<div class="form-control">
 			<label class="flex cursor-pointer items-center justify-between gap-4">
 				<div>
-					<span class="text-lg font-semibold text-base-content">Discord RPC (Sober's built in)</span>
+					<span class="text-lg font-semibold text-base-content">Discord RPC (Sober's built in)</span
+					>
 					<p class="text-sm text-base-content/70">understandable</p>
 				</div>
 				<input type="checkbox" class="toggle toggle-primary" bind:checked={toggleOne} />

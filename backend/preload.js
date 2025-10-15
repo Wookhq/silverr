@@ -56,6 +56,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
 		}
 	},
 
+	openExternalLink: (url) => ipcRenderer.invoke('open-external-link', url),
+
 	minimize: () => ipcRenderer.send('window-minimize'),
 	maximize: () => ipcRenderer.send('window-maximize'),
 	close: () => ipcRenderer.send('window-close')

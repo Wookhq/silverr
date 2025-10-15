@@ -1,4 +1,13 @@
-const { app, BrowserWindow, ipcMain, shell, Menu, protocol, dialog, globalShortcut } = require('electron');
+const {
+	app,
+	BrowserWindow,
+	ipcMain,
+	shell,
+	Menu,
+	protocol,
+	dialog,
+	globalShortcut
+} = require('electron');
 const path = require('path');
 const os = require('os');
 const fs = require('fs');
@@ -42,8 +51,8 @@ function createWindow() {
 
 	// cheat code
 	globalShortcut.register('Control+Shift+I', () => {
-		win.webContents.openDevTools()
-	})
+		win.webContents.openDevTools();
+	});
 
 	win.once('ready-to-show', () => win.show());
 }
@@ -197,7 +206,7 @@ app.whenReady().then(() => {
 	ipcMain.handle('json:read', async (event, filePath) => {
 		try {
 			const data = await readJson(filePath);
-			return { ok: true, data: JSON.stringify(data) }; 
+			return { ok: true, data: JSON.stringify(data) };
 		} catch (err) {
 			return { ok: false, error: err.message };
 		}
@@ -350,6 +359,11 @@ app.whenReady().then(() => {
 		}
 		await shell.openPath(filePath);
 		return 'opened ' + filePath;
+	});
+
+	ipcMain.handle('open-external-link', async (_, url) => {
+		await shell.openExternal(url);
+		return 'opened ' + url;
 	});
 
 	ipcMain.on('window-minimize', () => win.minimize());
