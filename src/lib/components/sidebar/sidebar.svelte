@@ -1,6 +1,7 @@
 <script>
 	export let drawerId = 'my-drawer-2';
 	import logo from '$lib/assets/logo.svg';
+	import { Icon, Home, Flag, ArchiveBox, Cloud, InformationCircle } from 'svelte-hero-icons';
 </script>
 
 <div class="drawer lg:drawer-open">
@@ -16,11 +17,36 @@
 
 		<label for={drawerId} aria-label="close sidebar" class="drawer-overlay"></label>
 		<ul class="menu mx-auto min-h-full w-80 bg-base-200 py-4 text-base-content">
-			<li><a href="/">Home</a></li>
-			<li><a href="/fastflag">Fastflag</a></li>
-			<li><a href="/mods">Mods</a></li>
-			<li><a href="/crossover">Crossover</a></li>
-			<!-- <li><a href="/marketplace">Marketplace</a></li> -->
+			<li>
+				<a href="/">
+					<Icon src={Home} class="h-6 w-6" />
+					Home</a
+				>
+			</li>
+			<li>
+				<a href="/fastflag">
+					<Icon src={Flag} class="h-6 w-6" />
+					Fastflag</a
+				>
+			</li>
+			<li>
+				<a href="/mods">
+					<Icon src={ArchiveBox} class="h-6 w-6" />
+					Mods</a
+				>
+			</li>
+			<li>
+				<a href="/crossover">
+					<Icon src={Cloud} class="h-6 w-6" />
+					Crossover</a
+				>
+			</li>
+			<li>
+				<a href="/about">
+					<Icon src={InformationCircle} class="h-6 w-6" />
+					About</a
+				>
+			</li>
 		</ul>
 	</div>
 </div>
