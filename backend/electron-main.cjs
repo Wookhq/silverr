@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, shell, Menu, protocol, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, shell, Menu, protocol, dialog, globalShortcut } = require('electron');
 const path = require('path');
 const os = require('os');
 const fs = require('fs');
@@ -39,7 +39,12 @@ function createWindow() {
 
 	console.log(startURL);
 	win.loadURL(startURL);
-	// win.webContents.openDevTools();
+
+	// cheat code
+	globalShortcut.register('Control+Shift+I', () => {
+		win.webContents.openDevTools()
+	})
+
 	win.once('ready-to-show', () => win.show());
 }
 
@@ -189,11 +194,13 @@ app.whenReady().then(() => {
 	});
 
 	// json
-	ipcMain.handle('json:read', async (_, filePath) => {
-		if (filePath.startsWith('~')) {
-			filePath = path.join(os.homedir(), filePath.slice(1));
+	ipcMain.handle('json:read', async (event, filePath) => {
+		try {
+			const data = await readJson(filePath);
+			return { ok: true, data: JSON.stringify(data) }; 
+		} catch (err) {
+			return { ok: false, error: err.message };
 		}
-		return await readJson(filePath);
 	});
 
 	ipcMain.handle('json:write', async (_, filePath, data) => {
