@@ -1,6 +1,8 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electronAPI', {
+	openLink: (url) => ipcRenderer.invoke('open-link', url),
+
 	openPath: (path) => ipcRenderer.invoke('open-path', path),
 
 	writeFile: (path, content) => ipcRenderer.invoke('write-file', path, content),

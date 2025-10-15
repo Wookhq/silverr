@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain, shell, Menu, protocol, dialog } = require('
 const path = require('path');
 const os = require('os');
 const fs = require('fs');
+require('./urlopen.cjs');
 const { readJson, writeJson, editJson, updateFastFlag, updateSoberConf } = require(
 	path.join(__dirname, 'helpers', 'jsonHelper.cjs')
 );
@@ -38,7 +39,7 @@ function createWindow() {
 
 	console.log(startURL);
 	win.loadURL(startURL);
-	// win.webContents.openDevTools();
+	win.webContents.openDevTools();
 	win.once('ready-to-show', () => win.show());
 }
 

@@ -62,12 +62,11 @@
 	</div>
 
 	<!-- centered content -->
-	<div class="flex w-full justify-center">
+	<div class="mb-4 flex w-full justify-center">
 		{#if tab === 'tab1'}
 			<Presetbuttons />
 		{:else if tab === 'Fast flag editor'}
-			<h1>robloax killed fflags well most of them you can still use them</h1>
-			<Fastflageditor flags={editorFlags} /> 
+			<Fastflageditor flags={editorFlags} class="mb-4" />
 		{:else if tab === 'tab3'}
 			<div class="p-4">:3</div>
 		{/if}
