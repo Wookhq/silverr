@@ -39,7 +39,7 @@ function createWindow() {
 
 	console.log(startURL);
 	win.loadURL(startURL);
-	win.webContents.openDevTools();
+	// win.webContents.openDevTools();
 	win.once('ready-to-show', () => win.show());
 }
 

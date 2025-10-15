@@ -49,6 +49,7 @@
 		"files": [
 			"backend/electron-main.cjs",
 			"backend/preload.js",
+			"backend/urlopen.cjs",
 			"backend/helpers/**/*",
 			"build/**/*",
 			"package.json"
