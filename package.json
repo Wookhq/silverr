@@ -1,7 +1,7 @@
 {
 	"name": "silverr",
 	"private": true,
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "Silverr app",
 	"author": "Wookhq ORG",
 	"main": "backend/electron-main.cjs",
