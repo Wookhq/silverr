@@ -5,6 +5,6 @@ import { defineConfig } from 'vite';
 export default defineConfig({
 	plugins: [tailwindcss(), sveltekit()],
 	ssr: {
-		noExternal: ['svelte-hero-icons']
+		noExternal: ['lucide-svelte']
 	}
 });

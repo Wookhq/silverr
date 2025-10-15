@@ -1,7 +1,11 @@
 <script>
 	export let drawerId = 'my-drawer-2';
 	import logo from '$lib/assets/logo.svg';
-	import { Icon, Home, Flag, ArchiveBox, Cloud, InformationCircle } from 'svelte-hero-icons';
+	import Home from 'lucide-svelte/icons/home';
+	import Flag from 'lucide-svelte/icons/flag';
+	import Archive from 'lucide-svelte/icons/archive';
+	import CloudCog from 'lucide-svelte/icons/CloudCog';
+	import Info from 'lucide-svelte/icons/info';
 </script>
 
 <div class="drawer lg:drawer-open">
@@ -19,31 +23,31 @@
 		<ul class="menu mx-auto min-h-full w-80 bg-base-200 py-4 text-base-content">
 			<li>
 				<a href="/">
-					<Icon src={Home} class="h-6 w-6" />
+					<Home class="h-6 w-6" />
 					Home</a
 				>
 			</li>
 			<li>
 				<a href="/fastflag">
-					<Icon src={Flag} class="h-6 w-6" />
+					<Flag class="h-6 w-6" />
 					Fastflag</a
 				>
 			</li>
 			<li>
 				<a href="/mods">
-					<Icon src={ArchiveBox} class="h-6 w-6" />
+					<Archive class="h-6 w-6" />
 					Mods</a
 				>
 			</li>
 			<li>
 				<a href="/crossover">
-					<Icon src={Cloud} class="h-6 w-6" />
+					<CloudCog class="h-6 w-6" />
 					Crossover</a
 				>
 			</li>
 			<li>
 				<a href="/about">
-					<Icon src={InformationCircle} class="h-6 w-6" />
+					<Info class="h-6 w-6" />
 					About</a
 				>
 			</li>
