@@ -5,7 +5,7 @@
 	let editorFlags = [];
 
 	async function loadFlags() {
-		const result = await window.electronAPI.readFile(
+		const result = await window.electronAPI.readJson(
 			'~/.var/app/org.vinegarhq.Sober/config/sober/config.json'
 		);
 		if (result.ok) {
