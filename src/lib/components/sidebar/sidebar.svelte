@@ -4,7 +4,7 @@
 	import Home from 'lucide-svelte/icons/home';
 	import Flag from 'lucide-svelte/icons/flag';
 	import Archive from 'lucide-svelte/icons/archive';
-	import CloudCog from 'lucide-svelte/icons/CloudCog';
+	import CloudCog from 'lucide-svelte/icons/cloud-cog';
 	import Info from 'lucide-svelte/icons/info';
 </script>
 
