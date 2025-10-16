@@ -9,6 +9,8 @@
 
 	let apply = new ApplyFunctionsTS();
 
+	const fflagsallowlist = "https://devforum.roblox.com/t/allowlist-for-local-client-configuration-via-fast-flags/3966569";
+
 	function showAlertMessage(msg, timeout = 3000) {
 		alertMessage = msg;
 		showAlert = true;

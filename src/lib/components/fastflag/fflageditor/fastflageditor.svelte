@@ -84,6 +84,13 @@
 		}
 	}
 
+	function truncate(text, length) {
+		if (text.length > length) {
+			return text.slice(0, length) + '...';
+		}
+		return text;
+	}
+
 	function showAlertMessage(msg, timeout = 3000) {
 		alertMessage = msg;
 		showAlert = true;
@@ -180,8 +187,8 @@
 				{#each flags as f (f.id)}
 					<tr>
 						<th>{f.id}</th>
-						<td>{f.name}</td>
-						<td>{f.job}</td>
+						<td>{truncate(f.name, 50)}</td>
+						<td>{truncate(f.job, 50)}</td>
 						<td class="text-right"
 							><button class="btn text-error btn-ghost btn-xs" on:click={() => deleteFlag(f.id)}
 								>Remove</button

@@ -32,8 +32,7 @@
 </script>
 
 <div class="flex min-h-screen flex-col items-start">
-	<!-- tabs pinned top-left with custom offset -->
-	<div class="mt-[50px] ml-[220px] tabs tabs-box">
+	<div class="sticky top-0 mt-[50px] ml-[220px] tabs tabs-box">
 		<input
 			type="radio"
 			name="my_tabs_1"
