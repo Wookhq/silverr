@@ -9,8 +9,46 @@
 	import Alert from '$lib/components/alert/Alert.svelte';
 	import { addInfo } from '$lib/infoStore';
 
+	let status = 'idle';
+	let progress = 0;
+
+	function checkUpdate() {
+		window.electronAPI.checkUpdate();
+	}
+
+	function downloadUpdate() {
+		window.electronAPI.downloadUpdate();
+	}
+
+	function installUpdate() {
+		window.electronAPI.installUpdate();
+	}
+
 	onMount(() => {
-		addInfo("Checking for updates..."); // pushes to stacked alerts
+		window.electronAPI.onUpdaterStatus((data) => {
+			status = data.status;
+		});
+
+		window.electronAPI.onUpdaterProgress((data) => {
+			progress = data.percent;
+		});
+	});
+
+	onMount(() => {
+		addInfo('Checking for updates...');
+		checkUpdate();
+		if (status == 'available') {
+			addInfo('Update available. Downloading update.');
+			try {
+				window.electronAPI.downloadUpdate();
+			} catch (error: unknown) {
+				addInfo('Something went wrong. Error : ', error.message);
+			} finally {
+				window.electronAPI.prompt();
+			}
+		} else {
+			addInfo('Version is up to date.');
+		}
 	});
 </script>
 
@@ -23,7 +61,7 @@
 	<div class="pt-10">
 		<Sidebar>
 			<Alert />
-			<Infos /> <!-- stacked alerts container -->
+			<Infos />
 			<slot />
 			<Popup />
 		</Sidebar>

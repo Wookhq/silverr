@@ -3,9 +3,8 @@
 	import { alerts, removeAlert } from '$lib/alertStore';
 </script>
 
-<div class="fixed top-12 left-4 flex flex-col gap-2 z-50">
+<div class="fixed top-12 left-4 z-50 flex flex-col gap-2">
 	{#each $alerts as info (info.id)}
 		<Alerts message={info.msg} type={info.type} on:close={() => removeAlert(info.id)} />
 	{/each}
 </div>
-

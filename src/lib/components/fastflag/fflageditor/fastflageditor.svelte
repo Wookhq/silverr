@@ -99,8 +99,6 @@
 	}
 </script>
 
-
-
 <div class="rounded-lg bg-base-100/50 p-4">
 	<h2 class="mb-4 text-xl font-bold">Fast Flag Editor</h2>
 

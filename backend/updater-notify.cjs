@@ -51,6 +51,24 @@ function initUpdater(mainWindow) {
 			});
 	});
 
+	ipcMain.handle('updater:prompt', () => {
+		log.info('update downloaded');
+
+		dialog
+			.showMessageBox(mainWindow, {
+				type: 'info',
+				buttons: ['Restart now', 'Later'],
+				defaultId: 0,
+				cancelId: 1,
+				title: 'Update ready',
+				message: `The newset version downloaded`,
+				detail: 'restart now to apply it?'
+			})
+			.then((res) => {
+				if (res.response === 0) autoUpdater.quitAndInstall();
+			});
+	});
+
 	ipcMain.handle('updater:check', () => {
 		autoUpdater.checkForUpdates();
 	});

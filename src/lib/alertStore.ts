@@ -17,4 +17,3 @@ export function addAlert(msg: string, type: 'success' | 'error' | 'warning' | 'i
 export function removeAlert(id: number) {
 	alerts.update((a) => a.filter((a) => a.id !== id));
 }
-

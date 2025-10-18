@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fly, fade } from 'svelte/transition';
 	import { createEventDispatcher } from 'svelte';
-	import  CircleX  from 'lucide-svelte/icons/circle-x';
+	import CircleX from 'lucide-svelte/icons/circle-x';
 	export let info: { id: number; msg: string };
 
 	const dispatch = createEventDispatcher();
@@ -9,7 +9,7 @@
 
 	function close() {
 		show = false;
-		dispatch('close'); 
+		dispatch('close');
 	}
 </script>
 
@@ -34,7 +34,11 @@
 			/>
 		</svg>
 
-		<span contenteditable="true" bind:innerText={info.msg} class="rounded-sm px-1 outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"></span>
+		<span
+			contenteditable="true"
+			bind:innerText={info.msg}
+			class="rounded-sm px-1 outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+		></span>
 
 		<button on:click={close}><CircleX /></button>
 	</div>

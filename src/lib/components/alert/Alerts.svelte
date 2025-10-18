@@ -82,6 +82,5 @@
 			</svg>
 		{/if}
 		<span>{message}</span>
-		
 	</div>
 {/if}

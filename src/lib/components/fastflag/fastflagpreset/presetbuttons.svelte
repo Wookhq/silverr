@@ -121,8 +121,6 @@
 	});
 </script>
 
-
-
 <div class="mx-auto flex w-full flex-col gap-4">
 	<div role="alert" class="mb-4 alert alert-warning">
 		<svg
