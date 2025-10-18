@@ -12,6 +12,7 @@ const path = require('path');
 const os = require('os');
 const fs = require('fs');
 require('./urlopen.cjs');
+const { initUpdater } = require('./updater-notify.cjs');
 const { readJson, writeJson, editJson, updateFastFlag, updateSoberConf } = require(
 	path.join(__dirname, 'helpers', 'jsonHelper.cjs')
 );
@@ -43,21 +44,15 @@ function createWindow() {
 	});
 
 	Menu.setApplicationMenu(null);
-
 	const startURL = process.env.ELECTRON_START_URL ? process.env.ELECTRON_START_URL : 'app://./';
-
-	console.log(startURL);
 	win.loadURL(startURL);
-
-	// cheat code
-	globalShortcut.register('Control+Shift+I', () => {
-		win.webContents.openDevTools();
-	});
-
+	globalShortcut.register('Control+Shift+I', () => win.webContents.openDevTools());
 	win.once('ready-to-show', () => win.show());
 }
 
 app.whenReady().then(() => {
+	initUpdater(win); // 👈 attach updater logic to the window
+
 	protocol.registerFileProtocol('app', (request, callback) => {
 		let url = request.url.substr(7);
 		if (url.indexOf('?') > -1) {
