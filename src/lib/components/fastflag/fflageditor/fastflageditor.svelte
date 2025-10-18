@@ -1,15 +1,12 @@
 <script>
 	import ModalYesNo from '../../modalyesorno/modal.svelte';
-	import Alert from '../../alert/alert.svelte';
+	import { addAlert } from '../../../alertStore';
 
 	export let flags = [];
 	const fflagsallowlist =
 		'https://devforum.roblox.com/t/allowlist-for-local-client-configuration-via-fast-flags/3966569';
 	let newFlag = '';
 	let jsonInput = '';
-
-	let showAlert = false;
-	let alertMessage = '';
 
 	let modalRef;
 
@@ -38,7 +35,7 @@
 			}));
 			jsonInput = '';
 		} catch (e) {
-			alert('Invalid JSON: ' + e.message);
+			addAlert('Invalid JSON: ' + e.message, 'error');
 		}
 	}
 
@@ -50,13 +47,13 @@
 			}, {});
 			const writeRes = await window.electronAPI.fastflagSaveAll(fflags);
 			if (writeRes) {
-				showAlertMessage('fflags saved');
+				addAlert('fflags saved', 'success');
 			} else {
-				showAlertMessage('Error saving flags');
+				addAlert('Error saving flags', 'error');
 				console.error('Error saving flags');
 			}
 		} catch (e) {
-			showAlertMessage('Error saving flags');
+			addAlert('Error saving flags', 'error');
 			console.error(e);
 		}
 	}
@@ -77,7 +74,7 @@
 				filePath,
 				JSON.stringify(config, null, 2)
 			);
-			if (writeRes.ok) showAlertMessage('Success');
+			if (writeRes.ok) addAlert('Success', 'success');
 			else console.error(writeRes.error);
 		} catch (e) {
 			console.error(e);
@@ -91,12 +88,6 @@
 		return text;
 	}
 
-	function showAlertMessage(msg, timeout = 3000) {
-		alertMessage = msg;
-		showAlert = true;
-		setTimeout(() => (showAlert = false), timeout);
-	}
-
 	function openModal() {
 		modalRef.open();
 	}
@@ -108,9 +99,7 @@
 	}
 </script>
 
-{#if showAlert}
-	<Alert type="success" message={alertMessage} />
-{/if}
+
 
 <div class="rounded-lg bg-base-100/50 p-4">
 	<h2 class="mb-4 text-xl font-bold">Fast Flag Editor</h2>

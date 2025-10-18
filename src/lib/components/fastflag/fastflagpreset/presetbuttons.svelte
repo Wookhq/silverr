@@ -1,21 +1,13 @@
 <script lang="ts">
-	import Alert from '$lib/components/alert/alert.svelte';
+	import { addAlert } from '$lib/alertStore';
 	import { ApplyFunctionsTS } from '$lib/helpers/sghelper';
 	import { onMount } from 'svelte';
 	import { readConfig } from '$lib/helpers/config';
 
-	let alertMessage = '';
-	let showAlert = false;
-
 	let apply = new ApplyFunctionsTS();
 
-	const fflagsallowlist = "https://devforum.roblox.com/t/allowlist-for-local-client-configuration-via-fast-flags/3966569";
-
-	function showAlertMessage(msg, timeout = 3000) {
-		alertMessage = msg;
-		showAlert = true;
-		setTimeout(() => (showAlert = false), timeout);
-	}
+	const fflagsallowlist =
+		'https://devforum.roblox.com/t/allowlist-for-local-client-configuration-via-fast-flags/3966569';
 
 	// bind each toggle
 	let toggleOne = true;
@@ -48,7 +40,7 @@
 
 		console.log('LightTech:', apply.loadLightTechConfig());
 		console.log('OpenGL?', await apply.usingOpenGl());
-		showAlertMessage('Applied !');
+		addAlert('Applied !', 'success');
 	}
 
 	onMount(async () => {
@@ -65,73 +57,71 @@
 				} else if (config.fflags.FFlagDebugForceFutureIsBrightPhase3) {
 					lightingTech = 'Future Lighting (Phase 3)';
 				}
-			}
-			if (config.hasOwnProperty('use_opengl')) {
-				toggleFive = config.use_opengl;
-			}
-			if (config.fflags.FFlagEnableBubbleChatFromChatService) {
-				toggleFour = config.fflags.FFlagEnableBubbleChatFromChatService;
-			}
-			if (config.fflags.FIntRenderShadowIntensity == '75') {
-				toggleThree = false;
-			} else if (config.fflags.FIntRenderShadowIntensity == '0') {
-				toggleThree = true;
-			}
-			if (config.fflags.FIntFontSizePadding) {
-				fontSize = config.fflags.FIntFontSizePadding;
-			}
-			if (config.fflags.DFIntTextureQualityOverride) {
-				switch (config.fflags.DFIntTextureQualityOverride) {
-					case 0:
-						tex = 'Level 0 (potato)';
-						break;
-					case 1:
-						tex = 'Level 1 (Low)';
-						break;
-					case 2:
-						tex = 'Level 1 (Low)';
-						break;
-					case 3:
-						tex = 'Level 3 (High)';
-						break;
-					case 4:
-						tex = 'Level 4 (Ultra)';
-						break;
+				if (config.hasOwnProperty('use_opengl')) {
+					toggleFive = config.use_opengl;
 				}
-			}
+				if (config.fflags.FFlagEnableBubbleChatFromChatService) {
+					toggleFour = config.fflags.FFlagEnableBubbleChatFromChatService;
+				}
+				if (config.fflags.FIntRenderShadowIntensity == '75') {
+					toggleThree = false;
+				} else if (config.fflags.FIntRenderShadowIntensity == '0') {
+					toggleThree = true;
+				}
+				if (config.fflags.FIntFontSizePadding) {
+					fontSize = config.fflags.FIntFontSizePadding;
+				}
+				if (config.fflags.DFIntTextureQualityOverride) {
+					switch (config.fflags.DFIntTextureQualityOverride) {
+						case 0:
+							tex = 'Level 0 (potato)';
+							break;
+						case 1:
+							tex = 'Level 1 (Low)';
+							break;
+						case 2:
+							tex = 'Level 1 (Low)';
+							break;
+						case 3:
+							tex = 'Level 3 (High)';
+							break;
+						case 4:
+							tex = 'Level 4 (Ultra)';
+							break;
+					}
+				}
 
-			const msaaFlag = config.fflags.FIntMSAASampleCount;
-			if (config.fflags.FFlagDebugDisableMSAA) {
-				msaa = 'Off';
-			} else {
-				switch (msaaFlag) {
-					case '1':
-						msaa = 'x1';
-						break;
-					case '2':
-						msaa = 'x2';
-						break;
-					case '3':
-						msaa = 'x3';
-						break;
-					case '4':
-						msaa = 'x4';
-						break;
-					case undefined:
-					case '':
-						msaa = 'Auto';
-						break;
-					default:
-						msaa = 'Auto';
+				const msaaFlag = config.fflags.FIntMSAASampleCount;
+				if (config.fflags.FFlagDebugDisableMSAA) {
+					msaa = 'Off';
+				} else {
+					switch (msaaFlag) {
+						case '1':
+							msaa = 'x1';
+							break;
+						case '2':
+							msaa = 'x2';
+							break;
+						case '3':
+							msaa = 'x3';
+							break;
+						case '4':
+							msaa = 'x4';
+							break;
+						case undefined:
+						case '':
+							msaa = 'Auto';
+							break;
+						default:
+							msaa = 'Auto';
+					}
 				}
 			}
 		}
 	});
 </script>
 
-{#if showAlert}
-	<Alert type="success" message={alertMessage} />
-{/if}
+
 
 <div class="mx-auto flex w-full flex-col gap-4">
 	<div role="alert" class="mb-4 alert alert-warning">

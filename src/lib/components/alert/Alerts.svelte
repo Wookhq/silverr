@@ -1,7 +1,8 @@
-<!-- Alert.svelte -->
 <script>
 	import { fly, fade } from 'svelte/transition';
-	import { onMount } from 'svelte';
+	import { onMount, createEventDispatcher } from 'svelte';
+
+	const dispatch = createEventDispatcher();
 
 	export let type = 'success';
 	export let message = 'This is an alert!';
@@ -81,5 +82,6 @@
 			</svg>
 		{/if}
 		<span>{message}</span>
+		
 	</div>
 {/if}

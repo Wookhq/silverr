@@ -15,7 +15,7 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",
 		"lint": "prettier --check .",
-		"electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && cross-env ELECTRON_START_URL=http://localhost:5173 node --max-old-space-size=4096 ./node_modules/electron/cli.js ./backend/electron-main.cjs\"",
+		"electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5174 && cross-env ELECTRON_START_URL=http://localhost:5174 node --max-old-space-size=4096 ./node_modules/electron/cli.js ./backend/electron-main.cjs\"",
 		"electron:prod": "npm run build && electron ./backend/electron-main.cjs",
 		"dist": "electron-builder"
 	},
@@ -42,6 +42,13 @@
 		"wait-on": "^9.0.0"
 	},
 	"build": {
+		"publish": [
+			{
+				"provider": "github",
+				"owner": "wookhq",
+				"repo": "silverr"
+			}
+		],
 		"appId": "org.wookhq.Silverr",
 		"productName": "Silverr",
 		"electronVersion": "38.1.2",
@@ -50,6 +57,7 @@
 			"backend/electron-main.cjs",
 			"backend/preload.js",
 			"backend/urlopen.cjs",
+			"backend/updater-notify.cjs",
 			"backend/helpers/**/*",
 			"build/**/*",
 			"package.json"
@@ -71,6 +79,8 @@
 		"archiver": "^7.0.1",
 		"async-mutex": "^0.5.0",
 		"clsx": "^2.1.1",
+		"electron-log": "^5.4.3",
+		"electron-updater": "^6.6.2",
 		"express": "^5.1.0",
 		"extract-zip": "^2.0.1",
 		"jsonc-parser": "^3.3.1",
