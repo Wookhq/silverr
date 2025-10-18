@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Info from './Info.svelte';
-	import { alerts, removeInfo } from '$lib/infoStore'; // or wherever your store is
+	import { alerts, removeInfo } from '$lib/infoStore';
 </script>
 
 <div class="fixed top-12 left-4 flex flex-col gap-2 z-50">

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Alerts from './Alerts.svelte';
-	import { alerts, removeAlert } from '$lib/alertStore'; // or wherever your store is
+	import { alerts, removeAlert } from '$lib/alertStore';
 </script>
 
 <div class="fixed top-12 left-4 flex flex-col gap-2 z-50">
