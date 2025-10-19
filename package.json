@@ -67,7 +67,9 @@
 		},
 		"linux": {
 			"target": [
-				"AppImage"
+				"AppImage",
+				"rpm",
+				"deb"
 			],
 			"category": "Utility",
 			"icon": "src/lib/assets/silverr.svg"
