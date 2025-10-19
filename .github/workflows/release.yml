@@ -2,32 +2,36 @@ name: Release
 
 on:
   release:
-    types: [created]
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: write     
 
 jobs:
-  build:
+  build_and_upload:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Set up Node (or your build env)
+        uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '16'
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install deps & build
+        run: |
+          npm install
+          npm run build
+          npm run dist
 
-      - name: Build frontend
-        run: npm run build
-
-      - name: Build application
-        run: npm run dist
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+      - name: Upload dist assets to Release
+        uses: svenstaro/upload-release-action@v2
         with:
-          name: silverr-app
-          path: dist/*
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: dist/**     
+          file_glob: true
+          tag: ${{ github.event.release.tag_name }}
+          overwrite: true
