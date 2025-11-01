@@ -8,6 +8,8 @@
 	import Infos from '$lib/components/alert/Infos.svelte';
 	import Alert from '$lib/components/alert/Alert.svelte';
 
+	console.log("hello world !")
+	console.log("i love you <3")
 </script>
 
 <svelte:head>
