@@ -1,7 +1,7 @@
 <script>
 	import Fastflageditor from '$lib/components/fastflag/fflageditor/fastflageditor.svelte';
 	import Presetbuttons from '$lib/components/fastflag/fastflagpreset/presetbuttons.svelte';
-	let tab = 'tab1';
+	let tab = 'presets';
 	let editorFlags = [];
 
 	async function loadFlags() {
@@ -26,48 +26,54 @@
 			console.error('failed to read file:', result.error);
 		}
 	}
-	$: if (tab === 'Fast flag editor') {
+	$: if (tab === 'editor') {
 		loadFlags();
 	}
 </script>
 
-<div class="flex min-h-screen flex-col items-start">
-	<div class="sticky top-0 mt-[50px] ml-[220px] tabs tabs-box">
-		<input
-			type="radio"
-			name="my_tabs_1"
-			class="tab"
-			aria-label="Presets"
-			value="tab1"
-			bind:group={tab}
-			checked
-		/>
-		<input
-			type="radio"
-			name="Fast flag editor"
-			class="tab"
-			aria-label="Fast flag editor"
-			value="Fast flag editor"
-			bind:group={tab}
-		/>
-		<input
-			type="radio"
-			name="my_tabs_1"
-			class="tab"
-			aria-label="Tab 3"
-			value="tab3"
-			bind:group={tab}
-		/>
+<div class="flex min-h-screen flex-col items-center">
+	<div class="sticky top-0 w-full bg-base-100 z-10 pt-[50px] pb-4">
+		<div class="container mx-auto px-4">
+			<div class="tabs tabs-box w-full justify-center">
+				<input
+					type="radio"
+					name="fastflag_tabs"
+					class="tab"
+					aria-label="Presets"
+					value="presets"
+					bind:group={tab}
+					checked
+				/>
+				<input
+					type="radio"
+					name="fastflag_tabs"
+					class="tab"
+					aria-label="Fast Flag editor"
+					value="editor"
+					bind:group={tab}
+				/>
+				<input
+					type="radio"
+					name="fastflag_tabs"
+					class="tab"
+					aria-label="Tab 3"
+					value="tab3"
+					bind:group={tab}
+				/>
+			</div>
+		</div>
 	</div>
 
-	<!-- centered content -->
-	<div class="mb-4 flex w-full justify-center">
-		{#if tab === 'tab1'}
-			<Presetbuttons />
-		{:else if tab === 'Fast flag editor'}
-			<Fastflageditor flags={editorFlags} class="mb-4" />
-		{:else if tab === 'tab3'}
-			<div class="p-4">:3</div>
-		{/if}
+	<!-- Contenido centrado -->
+	<div class="container mx-auto px-4 flex-1 w-full">
+		<div class="w-full">
+			{#if tab === 'presets'}
+				<Presetbuttons />
+			{:else if tab === 'editor'}
+				<Fastflageditor flags={editorFlags} class="mb-4" />
+			{:else if tab === 'tab3'}
+				<div class="p-4">:3</div>
+			{/if}
+		</div>
 	</div>
 </div>

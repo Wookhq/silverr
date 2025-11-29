@@ -229,7 +229,7 @@
 			<label class="flex cursor-pointer items-center justify-between gap-4">
 				<div>
 					<span class="text-lg font-semibold text-base-content">Use OpenGL</span>
-					<p class="text-sm text-base-content/70">if not, its will use vulkan</p>
+					<p class="text-sm text-base-content/70">if not, it will use vulkan</p>
 				</div>
 				<input type="checkbox" class="toggle toggle-primary" bind:checked={toggleFive} />
 			</label>
@@ -254,7 +254,6 @@
 		<div class="form-control flex flex-col gap-2">
 			<div class="flex flex-col">
 				<span class="text-lg font-semibold text-base-content">Preferred Texture Quality</span>
-				<span class="text-sm text-base-content/70">ingore my english gammar pls</span>
 			</div>
 			<select class="select w-full select-primary" bind:value={tex}>
 				<option disabled selected>Choose</option>
