@@ -31,10 +31,10 @@
 	}
 </script>
 
-<div class="flex min-h-screen flex-col items-center">
-	<div class="sticky top-0 w-full bg-base-100 z-10 pt-[50px] pb-4">
+<div class="min-h-screen w-full bg-base-100">
+	<div class="sticky top-0 w-full bg-base-100 z-10 pt-[50px] pb-4 border-b border-base-300">
 		<div class="container mx-auto px-4">
-			<div class="tabs tabs-box w-full justify-center">
+			<div class="tabs tabs-box justify-center w-full max-w-4xl mx-auto">
 				<input
 					type="radio"
 					name="fastflag_tabs"
@@ -64,9 +64,8 @@
 		</div>
 	</div>
 
-	<!-- Contenido centrado -->
-	<div class="container mx-auto px-4 flex-1 w-full">
-		<div class="w-full">
+	<div class="w-full py-6">
+		<div class="container mx-auto px-4 w-full">
 			{#if tab === 'presets'}
 				<Presetbuttons />
 			{:else if tab === 'editor'}
