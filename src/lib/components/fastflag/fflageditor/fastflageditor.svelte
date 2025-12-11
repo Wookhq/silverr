@@ -5,19 +5,19 @@
 	export let flags = [];
 	const fflagsallowlist =
 		'https://devforum.roblox.com/t/allowlist-for-local-client-configuration-via-fast-flags/3966569';
-	let newFlag = '';
 	let jsonInput = '';
+
+	let newFlagKey, newFlagValue = '';
 
 	let modalRef;
 
 	function addFlag() {
-		if (!newFlag.trim()) return;
-		const [name, value] = newFlag.split('=');
+	    if (!newFlagKey.trim() && !newFlagValue.trim()) return;
 		flags = [
-			...flags,
-			{ id: flags.length + 1, name: name || newFlag, job: value || '-', fav: '-' }
+		    ...flags,
+			{ id: flags.length + 1, name: newFlagKey, job: newFlagValue }
 		];
-		newFlag = '';
+		newFlagKey, newFlagValue = '';
 	}
 
 	function deleteFlag(id) {
@@ -129,12 +129,18 @@
 
 	<div class="mb-4 flex flex-col gap-4">
 		<div class="flex gap-2">
-			<input
+		    <input
 				type="text"
-				placeholder="SomeFastFlag=SomeValue"
+				placeholder="key"
 				class="input-bordered input w-full"
-				bind:value={newFlag}
-				on:keydown={(e) => e.key === 'Enter' && addFlag()}
+				bind:value={newFlagKey}
+			/>
+			<input
+			    type="text"
+				placeholder="value"
+				class="input-bordered input w-full"
+				bind:value={newFlagValue}
+				on:keyydown={(e) => e.key === 'Enter' && addFlag()}
 			/>
 			<button class="btn btn-primary" on:click={addFlag}>Add</button>
 		</div>
@@ -148,7 +154,7 @@
 				bind:value={jsonInput}
 			></textarea>
 			<div class="flex gap-2">
-				<button class="btn flex-grow btn-secondary" on:click={loadFromJson}>Load from JSON</button>
+				<button class="btn flex-grow btn-secondary" on:click={loadFromJson}>Load from pasted JSON</button>
 				<button class="btn flex-grow btn-info" on:click={saveFlags}>Save to config</button>
 				<button class="btn flex-grow btn-error" on:click={openModal}>Clear Fastflag</button>
 
