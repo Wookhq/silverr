@@ -30,7 +30,6 @@
 			bbchat: toggleTwo,
 			fontSize: fontSize,
 			disablePrSh: toggleThree,
-			useOldRobloxSounds: toggleFour,
 			textureQua: tex,
 			msaa: msaa
 		});
@@ -200,6 +199,7 @@
 		</div>
 	</div>
 
+	<!-- RIP -->
 	<!-- <div class="card w-full bg-base-200 p-5 shadow-md">
 		<div class="form-control">
 			<label class="flex cursor-pointer items-center justify-between gap-4">
@@ -212,17 +212,17 @@
 		</div>
 	</div> -->
 
-	<div class="card w-full bg-base-200 p-5 shadow-md">
+	<!-- <div class="card w-full bg-base-200 p-5 shadow-md">
 		<div class="form-control">
 			<label class="flex cursor-pointer items-center justify-between gap-4">
 				<div>
-					<span class="text-lg font-semibold text-base-content">Disable Chat</span>
+					<span class="text-lg font-semibold text-base-content">Use old Roblox sounds</span>
 					<p class="text-sm text-base-content/70">js read the title gng</p>
 				</div>
 				<input type="checkbox" class="toggle toggle-primary" bind:checked={toggleFour} />
 			</label>
 		</div>
-	</div>
+		</div> -->
 
 	<div class="card w-full bg-base-200 p-5 shadow-md">
 		<div class="form-control">
