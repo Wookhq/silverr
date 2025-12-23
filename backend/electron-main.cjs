@@ -11,6 +11,7 @@ const {
 const path = require('path');
 const os = require('os');
 const fs = require('fs');
+const AdmZip = require('adm-zip');
 require('./urlopen.cjs');
 const { initUpdater } = require('./updater-notify.cjs');
 const { readJson, writeJson, editJson, updateFastFlag, updateSoberConf } = require(
@@ -145,6 +146,27 @@ app.whenReady().then(() => {
 			'content',
 			'fonts'
 		);
+		// random ahh dir in case user only has the fonts dir inside content
+		const extraContentDir = path.join(
+			os.homedir(),
+			'.var',
+			'app',
+			'org.vinegarhq.Sober',
+			'data',
+			'sober',
+			'asset_overlay',
+			'content',
+			'ExtraContent'
+		);
+		const overlayDir = path.join(
+			os.homedir(),
+			'.var',
+			'app',
+			'org.vinegarhq.Sober',
+			'data',
+			'sober',
+			'asset_overlay'
+		);
 		const sourceFontDir = path.join(
 			os.homedir(),
 			'.var',
@@ -156,11 +178,31 @@ app.whenReady().then(() => {
 			'content',
 			'fonts'
 		);
+
+		const rblxApk = path.join(
+			os.homedir(),
+			'.var',
+			'app',
+			'org.vinegarhq.Sober',
+			'data',
+			'sober',
+			'packages',
+			'x86_64',
+			'com.roblox.client',
+			'base.apk'
+		);
+
 		const tempFilePath = path.join(os.tmpdir(), fileName);
 
 		try {
-			if (!fs.existsSync(overlayFontDir)) {
-				fs.mkdirSync(overlayFontDir, { recursive: true });
+			if (!fs.existsSync(overlayFontDir) || !fs.existsSync(extraContentDir)) {
+				console.log('Extracting assets folder from the apk...');
+				const apk = new AdmZip(rblxApk);
+				const tempApkDir = path.join(os.tmpdir(), 'silverrApkExtraction');
+				apk.extractAllTo(tempApkDir, true, true);
+				fs.cpSync(path.join(tempApkDir, 'assets'), overlayDir, { recursive: true });
+				console.log('Finished extracting assets folder from the apk');
+				fs.rmSync(tempApkDir, { recursive: true });
 			}
 
 			const filesInOverlay = await fs.promises.readdir(overlayFontDir);
@@ -187,7 +229,7 @@ app.whenReady().then(() => {
 			replaceFileContents(tempFilePath, overlayFontDir);
 			return { ok: true };
 		} catch (error) {
-			console.error(`Error in mod:replace: ${error.message}`);
+			console.error(`Error in mod:replace: ${error}`);
 			return { ok: false, error: error.message };
 		} finally {
 			// Clean up the temporary file
